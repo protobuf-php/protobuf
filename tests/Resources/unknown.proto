@@ -1,0 +1,5 @@
+package ProtobufTest.Protos;
+
+message Unrecognized {
+
+}

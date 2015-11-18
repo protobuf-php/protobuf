@@ -1,0 +1,58 @@
+<?php
+
+namespace ProtobufTest;
+
+use Protobuf\ScalarCollection;
+
+class ScalarCollectionTest extends TestCase
+{
+    /**
+     * @var \Protobuf\ScalarCollection
+     */
+    protected $collection;
+
+    protected function setUp()
+    {
+        $this->collection = new ScalarCollection();
+    }
+
+    public function testAddMessage()
+    {
+        $this->assertCount(0, $this->collection);
+        $this->assertTrue($this->collection->isEmpty());
+
+        $this->collection[] = 1;
+
+        $this->collection->add(2);
+
+        $this->assertCount(2, $this->collection);
+        $this->assertEquals([1, 2], $this->collection->getValues());
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Argument 1 passed to Protobuf\ScalarCollection::add must be a scalar value, stdClass given
+     */
+    public function testInvalidArgumentExceptionAddObject()
+    {
+        $this->collection->add(new \stdClass());
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Argument 2 passed to Protobuf\ScalarCollection::offsetSet must be a scalar value, stdClass given
+     */
+    public function testInvalidArgumentExceptionOffsetSetObject()
+    {
+        $this->collection[] = new \stdClass();
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Argument 2 passed to Protobuf\ScalarCollection::offsetSet must be a scalar value, array given
+     */
+    public function testInvalidArgumentExceptionOffsetSetInteger()
+    {
+        $this->collection[] = [];
+    }
+}

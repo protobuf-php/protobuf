@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php"
+         convertWarningsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertErrorsToExceptions="true"
+         backupStaticAttributes="false"
+         processIsolation="false"
+         backupGlobals="false"
+         stopOnFailure="false"
+         syntaxCheck="false"
+         colors="true">
+
+    <testsuites>
+        <testsuite name="Protobuf Test Suite">
+            <directory>./tests</directory>
+            <exclude>./tests/Resources/*</exclude>
+        </testsuite>
+    </testsuites>
+
+    <groups>
+        <exclude>
+            <group>benchmark</group>
+            <group>deprecated</group>
+        </exclude>
+    </groups>
+
+    <filter>
+        <blacklist>
+              <directory>./vendor/*</directory>
+        </blacklist>
+        <whitelist>
+            <directory>./src</directory>
+        </whitelist>
+    </filter>
+</phpunit>

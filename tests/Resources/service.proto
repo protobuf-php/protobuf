@@ -1,0 +1,24 @@
+package ProtobufTest.Protos.Service;
+
+// option java_package = "ProtobufTest.Protos.Service";
+// option java_outer_classname = "ServicePB";
+
+message SearchRequest {
+  required string query = 1;
+  optional int32 page_number = 2;
+  optional int32 result_per_page = 3 [default = 10];
+}
+
+message SearchResponse {
+  repeated Result result = 1;
+}
+
+message Result {
+  required string url = 1;
+  optional string title = 2;
+  repeated string snippets = 3;
+}
+
+service SearchService {
+  rpc search (SearchRequest) returns (SearchResponse);
+}

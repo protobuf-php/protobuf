@@ -1,0 +1,7 @@
+package ProtobufTest.Protos.Tree;
+
+message Node {
+  required string path   = 1;
+  repeated Node children = 2;
+  optional Node parent   = 3;
+}

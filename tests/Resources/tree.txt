@@ -1,0 +1,13 @@
+path: "\/Users"
+children {
+  path: "\/Users\/fabio"
+  parent {
+    path: "\/Users"
+  }
+}
+children {
+  path: "\/Users\/admin"
+  parent {
+    path: "\/Users"
+  }
+}

@@ -1,27 +1,48 @@
 {
-    "name": "DrSlump/Protobuf-PHP",
+    "name"       : "protobuf-php/protobuf",
     "description": "PHP implementation of Google's Protocol Buffers",
-    "keywords": ["protobuf", "protocol buffer", "serializing"],
-    "homepage": "https://github.com/drslump/Protobuf-PHP",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
+    "keywords"   : ["protobuf", "protocol buffer", "serializing"],
+    "homepage"   : "https://github.com/protobuf-php/protobuf",
+    "type"       : "library",
+    "license"    : "MIT",
+    "authors"    : [
         {
-            "name": "Iván -DrSlump- Montes",
-            "email": "drslump@pollinimini.net",
-            "homepage": "https://github.com/drslump/Protobuf-PHP"
+            "name"    : "Fabio B. Silva",
+            "email"   : "fabio.bat.silva@gmail.com",
+            "homepage": "https://github.com/FabioBatSilva"
         }
     ],
-    "bin": ["protoc-gen-php.bat", "protoc-gen-php.php"],
-    "require": {
-        "php": ">=5.3.0"
+    "require"    : {
+        "ext-mbstring" : "*",
+        "php"          : ">=5.5.0"
     },
-    "autoload": {
-        "psr-0": {"DrSlump": "library/"}
+    "require-dev": {
+        "protobuf-php/protobuf-plugin"          : "~1.0@dev",
+        "phpunit/phpunit"                       : "~4",
+        "instaclick/coding-standard"            : "~1.1",
+        "squizlabs/php_codesniffer"             : "~1.5",
+        "satooshi/php-coveralls"                : "~0.6",
+        "php-mock/php-mock-phpunit"             : "^0.2",
+        "doctrine/annotations"                  : "^1.2",
+        "instaclick/object-calisthenics-sniffs" : "dev-master",
+        "instaclick/symfony2-coding-standard"   : "dev-remaster"
+    },
+    "suggest": {
+        "doctrine/annotations": "Allows reading of proto classes metadata"
+    },
+    "autoload"   : {
+        "psr-4": {
+            "Protobuf\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ProtobufTest\\": "tests/"
+        }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0"
+            "dev-master": "1.0.x-dev"
         }
     }
 }
