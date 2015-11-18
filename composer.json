@@ -1,10 +1,12 @@
 {
-    "name"       : "protobuf-php/protobuf",
-    "description": "PHP implementation of Google's Protocol Buffers",
-    "keywords"   : ["protobuf", "protocol buffer", "serializing"],
-    "homepage"   : "https://github.com/protobuf-php/protobuf",
-    "type"       : "library",
-    "license"    : "MIT",
+    "name"              : "protobuf-php/protobuf",
+    "description"       : "PHP implementation of Google's Protocol Buffers",
+    "keywords"          : ["protobuf", "protocol buffer", "serializing"],
+    "homepage"          : "https://github.com/protobuf-php/protobuf",
+    "type"              : "library",
+    "license"           : "MIT",
+    "minimum-stability" : "dev",
+    "prefer-stable"     : true,
     "authors"    : [
         {
             "name"    : "Fabio B. Silva",
