@@ -10,6 +10,11 @@
             "name"    : "Fabio B. Silva",
             "email"   : "fabio.bat.silva@gmail.com",
             "homepage": "https://github.com/FabioBatSilva"
+        },
+        {
+            "name": "Iván -DrSlump- Montes",
+            "email": "drslump@pollinimini.net",
+            "homepage": "https://github.com/drslump"
         }
     ],
     "require"    : {
