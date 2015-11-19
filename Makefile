@@ -32,7 +32,7 @@ else
 endif
 
 proto-clean:
-	rm -rf $(BASEDIR)/tests/ProtobufTest/Protos/*;
+	rm -rf $(BASEDIR)/tests/Protos/*;
 
 proto-generate: proto-clean
 	php $(BASEDIR)/vendor/bin/protobuf --psr4 ProtobufTest\\Protos -o $(BASEDIR)/tests/Protos $(BASEDIR)/tests/Resources/*.proto
