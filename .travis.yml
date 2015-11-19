@@ -21,10 +21,8 @@ before_install:
 install:
     - composer self-update
     - composer --prefer-source install
-    - export PATH=$PATH:$HOME/protobuf/bin/
 
 script:
-    - ls $HOME/protobuf/bin
     - protoc --version
     - uname -a
     - make phpcs proto-generate phpunit-coverage-clover
