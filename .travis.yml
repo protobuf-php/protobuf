@@ -16,7 +16,6 @@ env:
     - PROTOBUF_VERSION=2.6.1
 
 before_install:
-    - sudo apt-get update -qq
     - wget https://github.com/google/protobuf/releases/download/v$PROTOBUF_VERSION/protobuf-$PROTOBUF_VERSION.tar.gz
     - tar xf protobuf-$PROTOBUF_VERSION.tar.gz
     - ( cd protobuf-$PROTOBUF_VERSION && ./configure && make -j2 && sudo make install && sudo ldconfig )
