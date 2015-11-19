@@ -25,6 +25,8 @@ install:
     - composer --prefer-source install
 
 script:
+    - protoc --version
+    - uname -a
     - make phpcs proto-generate phpunit-coverage-clover
 
 after_script:
