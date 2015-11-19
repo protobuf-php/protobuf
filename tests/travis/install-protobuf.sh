@@ -7,7 +7,4 @@ tar xf protobuf-$PROTOBUF_VERSION.tar.gz
 
 cd protobuf-$PROTOBUF_VERSION && ./configure --prefix=$HOME/protobuf && make && make install
 
-export PATH=$PATH:$HOME/protobuf/bin
-
-echo $PATH
-ls $HOME/protobuf/bin
+export PATH=$PATH:$HOME/protobuf/bin/
