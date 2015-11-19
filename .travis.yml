@@ -21,6 +21,7 @@ before_install:
 install:
     - composer self-update
     - composer --prefer-source install
+    - export PATH=$PATH:$HOME/protobuf/bin/
 
 script:
     - protoc --version
