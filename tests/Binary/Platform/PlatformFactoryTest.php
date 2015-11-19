@@ -9,6 +9,10 @@ class PlatformFactoryTest extends TestCase
 {
     public function testGetGmpNegativeEncoder()
     {
+        if ( ! extension_loaded('gmp')) {
+            $this->markTestSkipped('The GMP extension is not available.');
+        }
+
         $factory = $this->getMockBuilder(PlatformFactory::CLASS)
             ->setMethods(['isExtensionLoaded'])
             ->getMock();
@@ -23,6 +27,10 @@ class PlatformFactoryTest extends TestCase
 
     public function testGetBcNegativeEncoder()
     {
+        if ( ! extension_loaded('bcmath')) {
+            $this->markTestSkipped('The BC MATH extension is not available.');
+        }
+
         $factory = $this->getMockBuilder(PlatformFactory::CLASS)
             ->setMethods(['isExtensionLoaded'])
             ->getMock();
