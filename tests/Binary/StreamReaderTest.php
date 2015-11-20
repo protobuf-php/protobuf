@@ -9,6 +9,16 @@ use Protobuf\Binary\StreamReader;
 
 class StreamReaderTest extends TestCase
 {
+    protected function assertNextTagWire(StreamReader $reader, Stream $stream, $expectedTag, $expectedWire)
+    {
+        $key  = $reader->readVarint($stream);
+        $tag  = WireFormat::getTagFieldNumber($key);
+        $wire = WireFormat::getTagWireType($key);
+
+        $this->assertEquals($expectedTag, $tag);
+        $this->assertEquals($expectedWire, $wire);
+    }
+
     public function testReadSimpleMessage()
     {
         $stream = Stream::create($this->getProtoContent('simple.bin'));
@@ -60,13 +70,27 @@ class StreamReaderTest extends TestCase
         $this->assertEquals(-123456789123456789, $reader->readZigzag($stream));
     }
 
-    protected function assertNextTagWire(StreamReader $reader, Stream $stream, $expectedTag, $expectedWire)
+    /**
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage Groups are deprecated in Protocol Buffers and unsupported.
+     */
+    public function testReadUnknownWireFormatGroupException()
     {
-        $key  = $reader->readVarint($stream);
-        $tag  = WireFormat::getTagFieldNumber($key);
-        $wire = WireFormat::getTagWireType($key);
+        $stream = Stream::create($this->getProtoContent('simple.bin'));
+        $reader = new StreamReader($this->config);
 
-        $this->assertEquals($expectedTag, $tag);
-        $this->assertEquals($expectedWire, $wire);
+        $reader->readUnknown($stream, WireFormat::WIRE_GROUP_START);
+    }
+
+    /**
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage Unsupported wire type '-1' while reading unknown field.
+     */
+    public function testReadUnknownWireFormatException()
+    {
+        $stream = Stream::create($this->getProtoContent('simple.bin'));
+        $reader = new StreamReader($this->config);
+
+        $reader->readUnknown($stream, -1);
     }
 }

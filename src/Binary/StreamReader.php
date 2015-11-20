@@ -8,6 +8,7 @@ use Protobuf\Configuration;
 use Protobuf\WireFormat;
 use Protobuf\Unknown;
 use Protobuf\Stream;
+use RuntimeException;
 
 /**
  * Implements reading primitives for Protobuf binary streams.
@@ -320,9 +321,9 @@ class StreamReader
         }
 
         if ($wire === WireFormat::WIRE_GROUP_START || $wire === WireFormat::WIRE_GROUP_END) {
-            throw new \RuntimeException('Groups are deprecated in Protocol Buffers and unsupported.');
+            throw new RuntimeException('Groups are deprecated in Protocol Buffers and unsupported.');
         }
 
-        throw new \RuntimeException('Unsupported wire type ('.$wire.') while consuming unknown field');
+        throw new RuntimeException("Unsupported wire type '$wire' while reading unknown field.");
     }
 }
