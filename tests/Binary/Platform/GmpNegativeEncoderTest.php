@@ -12,7 +12,7 @@ class GmpNegativeEncoderTest extends TestCase
     {
         parent::setUp();
 
-        if ( ! extension_loaded('gmp')) {
+        if ( ! extension_loaded('gmp') || ! class_exists('GMP')) {
             $this->markTestSkipped('The GMP extension is not available.');
         }
     }
