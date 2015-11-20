@@ -48,44 +48,6 @@ class WireFormat
     ];
 
     /**
-     * Table map to know if a field type is "packable"
-     *
-     * @var array
-     */
-    private static $packableMap = [
-        Field::TYPE_DOUBLE   => true,
-        Field::TYPE_FLOAT    => true,
-        Field::TYPE_INT64    => true,
-        Field::TYPE_UINT64   => true,
-        Field::TYPE_INT32    => true,
-        Field::TYPE_FIXED64  => true,
-        Field::TYPE_FIXED32  => true,
-        Field::TYPE_BOOL     => true,
-        Field::TYPE_UINT32   => true,
-        Field::TYPE_ENUM     => true,
-        Field::TYPE_SFIXED32 => true,
-        Field::TYPE_SFIXED64 => true,
-        Field::TYPE_SINT32   => true,
-        Field::TYPE_SINT64   => true,
-        Field::TYPE_STRING   => false,
-        Field::TYPE_GROUP    => false,
-        Field::TYPE_MESSAGE  => false,
-        Field::TYPE_BYTES    => false,
-    ];
-
-    /**
-     * Given a field type, determines the if its is packed.
-     *
-     * @param integer $type
-     *
-     * @return integer
-     */
-    public static function isPackable($type)
-    {
-        return self::$packableMap[$type];
-    }
-
-    /**
      * Given a field type, determines the wire type.
      *
      * @param integer $type
