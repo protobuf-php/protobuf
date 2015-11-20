@@ -5,6 +5,7 @@ language: php
 cache:
   directories:
     - $HOME/.composer/cache
+    - $HOME/protobuf
 
 php:
     - 5.5
@@ -31,3 +32,6 @@ script:
 after_script:
     - ./vendor/bin/coveralls -v
 
+matrix:
+  allow_failures:
+    - php: 7.0
