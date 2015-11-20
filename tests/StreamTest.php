@@ -141,14 +141,14 @@ class StreamTest extends TestCase
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Unable to seek stream position to 11
+     * @expectedExceptionMessage Unable to seek stream position to -1
      */
     public function testSeekException()
     {
         $handle = fopen('php://temp', 'w+');
         $stream = new Stream($handle);
 
-        $stream->seek(11);
+        $stream->seek(-1);
     }
 
     /**
