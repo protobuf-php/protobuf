@@ -90,4 +90,36 @@ class ExtensionFieldMap extends BaseCollection
     {
         return new ArrayIterator($this->values);
     }
+
+    /**
+     * @param \Protobuf\ComputeSizeContext $context
+     *
+     * @return integer
+     */
+    public function serializedSize(ComputeSizeContext $context)
+    {
+        $size = 0;
+
+        foreach ($this->values as $entry) {
+            $extension = $entry[0];
+            $value     = $entry[1];
+
+            $size += $extension->serializedSize($context, $value);
+        }
+
+        return $size;
+    }
+
+    /**
+     * @param \Protobuf\WriteContext $context
+     */
+    public function writeTo(WriteContext $context)
+    {
+        foreach ($this->values as $entry) {
+            $extension = $entry[0];
+            $value     = $entry[1];
+
+            $extension->writeTo($context, $value);
+        }
+    }
 }

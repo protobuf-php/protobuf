@@ -189,9 +189,11 @@ class SerializeTest extends TestCase
         $animal->setType(Extension\Animal\Type::CAT());
         $animal->extensions()->put(Extension\Cat::animal(), $cat);
 
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $expected = $this->getProtoContent('extension-cat.bin');
+        $actual   = $animal->toStream();
 
-        // var_dump($animal, Extension\Cat::animal());
+        $this->assertEquals($expected, (string) $actual);
+        $this->assertSerializedMessageSize($expected, $animal);
     }
 
     public function testReadSimpleMessage()
