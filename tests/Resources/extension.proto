@@ -1,12 +1,34 @@
-package ProtobufTest.Protos;
+package ProtobufTest.Protos.Extension;
 
-message ExtA {
-  optional string first = 1;
-  extensions 2 to 3;
+message Animal
+{
+    extensions 100 to max;
+
+    enum Type
+    {
+        CAT = 1;
+        DOG = 2;
+    }
+
+    required Type type = 1;
 }
 
-message ExtB {
-  extend ExtA {
-    optional string second = 2;
-  }
+message Cat
+{
+    extend Animal
+    {
+        optional Cat animal = 100;
+    }
+
+    optional bool declawed = 101;
+}
+
+message Dog
+{
+    extend Animal
+    {
+        optional Dog animal = 102;
+    }
+
+    optional uint32 bones_buried = 103;
 }

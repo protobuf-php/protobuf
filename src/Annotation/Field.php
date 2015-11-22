@@ -8,7 +8,7 @@ namespace Protobuf\Annotation;
  * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  *
  * @Annotation
- * @Target({"ANNOTATION","PROPERTY"})
+ * @Target({"ANNOTATION"})
  */
 class Field
 {
@@ -41,6 +41,11 @@ class Field
      * @var mixed
      */
     public $default;
+
+    /**
+     * @var string
+     */
+    public $extendee;
 
     /**
      * @var string

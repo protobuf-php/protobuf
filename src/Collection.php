@@ -3,7 +3,6 @@
 namespace Protobuf;
 
 use IteratorAggregate;
-use ArrayAccess;
 use Countable;
 
 /**
@@ -11,7 +10,7 @@ use Countable;
  *
  * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  */
-interface Collection extends IteratorAggregate, Countable, ArrayAccess
+interface Collection extends IteratorAggregate, Countable
 {
     /**
      * @return boolean
@@ -24,6 +23,15 @@ interface Collection extends IteratorAggregate, Countable, ArrayAccess
      * @return mixed
      */
     public function get($key);
+
+    /**
+     * Removes the element at the specified index from the collection.
+     *
+     * @param mixed $key
+     *
+     * @return mixed The removed element
+     */
+    public function remove($key);
 
     /**
      * Gets all values of the collection.

@@ -5,13 +5,14 @@ namespace Protobuf;
 use InvalidArgumentException;
 use OutOfBoundsException;
 use ArrayIterator;
+use ArrayAccess;
 
 /**
  * Base collection
  *
  * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  */
-abstract class BaseCollection implements Collection
+abstract class BaseCollection implements Collection, ArrayAccess
 {
     /**
      * @var array
@@ -42,6 +43,22 @@ abstract class BaseCollection implements Collection
     public function get($key)
     {
         return $this->offsetGet($key);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove($key)
+    {
+        if ( ! isset($this->values[$key])) {
+            throw new OutOfBoundsException("Undefined index '$key'");
+        }
+
+        $removed = $this->values[$key];
+
+        unset($this->values[$key]);
+
+        return $removed;
     }
 
     /**

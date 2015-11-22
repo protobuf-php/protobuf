@@ -26,4 +26,9 @@ class Descriptor
      * @var array
      */
     public $fields;
+
+    /**
+     * @var array
+     */
+    public $extensions;
 }

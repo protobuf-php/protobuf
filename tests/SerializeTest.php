@@ -10,6 +10,7 @@ use ProtobufTest\Protos\Tree;
 use ProtobufTest\Protos\Person;
 use ProtobufTest\Protos\Simple;
 use ProtobufTest\Protos\Repeated;
+use ProtobufTest\Protos\Extension;
 use ProtobufTest\Protos\AddressBook;
 use ProtobufTest\Protos\Unrecognized;
 use ProtobufTest\Protos\Person\PhoneType;
@@ -176,6 +177,21 @@ class SerializeTest extends TestCase
 
         $this->assertEquals($expected, (string) $actual);
         $this->assertSerializedMessageSize($expected, $root);
+    }
+
+    public function testWriteExtensionMessage()
+    {
+        $cat    = new Extension\Cat();
+        $animal = new Extension\Animal();
+
+        $cat->setDeclawed(true);
+
+        $animal->setType(Extension\Animal\Type::CAT());
+        $animal->extensions()->put(Extension\Cat::animal(), $cat);
+
+        $this->markTestIncomplete('This test has not been implemented yet.');
+
+        // var_dump($animal, Extension\Cat::animal());
     }
 
     public function testReadSimpleMessage()
