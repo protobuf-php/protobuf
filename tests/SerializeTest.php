@@ -193,7 +193,7 @@ class SerializeTest extends TestCase
         $actual   = $animal->toStream();
 
         $this->assertEquals($expected, (string) $actual);
-        //$this->assertSerializedMessageSize($expected, $animal);
+        $this->assertSerializedMessageSize($expected, $animal);
     }
 
     public function testReadSimpleMessage()
