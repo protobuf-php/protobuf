@@ -15,6 +15,11 @@ use Protobuf\Binary\StreamReader;
 class Configuration
 {
     /**
+     * @var \Protobuf\Binary\StreamReader
+     */
+    private $extensionRegistry;
+
+    /**
      * @var \Protobuf\Binary\Platform\PlatformFactory
      */
     private $platformFactory;
@@ -38,6 +43,40 @@ class Configuration
      * @var \Protobuf\DescriptorLoader
      */
     protected static $instance;
+
+    /**
+     * Return a ExtensionRegistry.
+     *
+     * @param \Protobuf\Extension $extension
+     */
+    public function registerExtension(Extension $extension)
+    {
+        if ($this->extensionRegistry === null) {
+            $this->extensionRegistry = new ExtensionRegistry();
+        }
+
+        $this->extensionRegistry->add($extension);
+    }
+
+    /**
+     * Return a ExtensionRegistry.
+     *
+     * @return \Protobuf\ExtensionRegistry
+     */
+    public function getExtensionRegistry()
+    {
+        return $this->extensionRegistry;
+    }
+
+    /**
+     * Set a ExtensionRegistry.
+     *
+     * @param \Protobuf\ExtensionRegistry $extensionRegistry
+     */
+    public function setExtensionRegistry(ExtensionRegistry $extensionRegistry)
+    {
+        $this->extensionRegistry = $extensionRegistry;
+    }
 
     /**
      * Return a PlatformFactory.
@@ -129,6 +168,25 @@ class Configuration
         $writer      = $this->getStreamWriter();
         $sizeContext = $this->createComputeSizeContext();
         $context     = new WriteContext($stream, $writer, $sizeContext);
+
+        return $context;
+    }
+
+    /**
+     * Create a read context.
+     *
+     * @param \Protobuf\Stream|resource|string $stream
+     *
+     * @return \Protobuf\ReadContext
+     */
+    public function createReadContext($stream)
+    {
+        $reader  = $this->getStreamReader();
+        $context = new ReadContext($stream, $reader);
+
+        if ($this->extensionRegistry !== null) {
+            $context->setExtensionRegistry($this->extensionRegistry);
+        }
 
         return $context;
     }

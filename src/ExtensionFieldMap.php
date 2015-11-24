@@ -2,6 +2,9 @@
 
 namespace Protobuf;
 
+use InvalidArgumentException;
+use OutOfBoundsException;
+
 /**
  * A table of known extensions values
  *
@@ -12,14 +15,19 @@ class ExtensionFieldMap extends BaseCollection
     /**
      * @var array
      */
-    protected $values;
+    protected $values = [];
 
     /**
-     * @param array $values
+     * @var string
      */
-    public function __construct(array $values = [])
+    private $extendee;
+
+    /**
+     * @param string $extendee
+     */
+    public function __construct($extendee = null)
     {
-        $this->values = $values;
+        $this->extendee = trim($extendee, '\\');
     }
 
     /**
@@ -30,7 +38,18 @@ class ExtensionFieldMap extends BaseCollection
      */
     public function put(Extension $extension, $value)
     {
-        $this->values[$extension->getName()] = [$extension, $value];
+        $extendee = trim($extension->getExtendee(), '\\');
+        $name     = $extension->getName();
+
+        if ($extendee !== $this->extendee) {
+            throw new InvalidArgumentException(sprintf(
+                'Extension extendee must be a %s, %s given',
+                $this->extendee,
+                $extendee
+            ));
+        }
+
+        $this->values[$name] = [$extension, $value];
     }
 
     /**
@@ -46,7 +65,19 @@ class ExtensionFieldMap extends BaseCollection
      */
     public function get($key)
     {
-        return $this->values[$extension->getName()][1];
+        if ( ! $key instanceof Extension) {
+            throw new InvalidArgumentException(sprintf(
+                'Argument 1 passed to %s must a instanceof \Protobuf\Extension, %s given',
+                __METHOD__,
+                is_object($key) ? get_class($key) : gettype($key)
+            ));
+        }
+
+        if ( ! isset($this->values[$key->getName()])) {
+            throw new OutOfBoundsException(sprintf("Undefined index '%s'", $key->getName()));
+        }
+
+        return $this->values[$key->getName()][1];
     }
 
     /**

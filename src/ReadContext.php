@@ -15,6 +15,11 @@ class ReadContext
     /**
      * @var \Protobuf\Binary\StreamReader
      */
+    private $extensionRegistry;
+
+    /**
+     * @var \Protobuf\Binary\StreamReader
+     */
     private $reader;
 
     /**
@@ -41,6 +46,26 @@ class ReadContext
         $this->stream = $stream;
         $this->reader = $reader;
         $this->length = $length;
+    }
+
+    /**
+     * Return a ExtensionRegistry.
+     *
+     * @return \Protobuf\ExtensionRegistry
+     */
+    public function getExtensionRegistry()
+    {
+        return $this->extensionRegistry;
+    }
+
+    /**
+     * Set a ExtensionRegistry.
+     *
+     * @param \Protobuf\ExtensionRegistry $extensionRegistry
+     */
+    public function setExtensionRegistry(ExtensionRegistry $extensionRegistry)
+    {
+        $this->extensionRegistry = $extensionRegistry;
     }
 
     /**

@@ -312,6 +312,24 @@ class SerializeTest extends TestCase
         $this->assertEquals('/Users', $node2->getParent()->getPath());
     }
 
+    public function testReadExtensionMessage()
+    {
+        $this->config->registerExtension(Extension\Cat::animal());
+
+        $binary = $this->getProtoContent('extension-cat.bin');
+        $animal = Extension\Animal::fromStream($binary, $this->config);
+
+        $this->assertInstanceOf(Extension\Animal::CLASS, $animal);
+        $this->assertInstanceOf(Collection::CLASS, $animal->extensions());
+        $this->assertEquals(Extension\Animal\Type::CAT(), $animal->getType());
+
+        $extensions = $animal->extensions();
+        $cat        = $extensions->get(Extension\Cat::animal());
+
+        $this->assertInstanceOf(Extension\Cat::CLASS, $cat);
+        $this->assertTrue($cat->getDeclawed());
+    }
+
     public function testUnknownFieldSet()
     {
         $binary       = $this->getProtoContent('unknown.bin');

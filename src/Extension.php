@@ -31,6 +31,11 @@ class Extension
     /**
      * @var string
      */
+    private $extendee;
+
+    /**
+     * @var string
+     */
     private $name;
 
     /**
@@ -39,19 +44,29 @@ class Extension
     private $tag;
 
     /**
+     * @param string   $extendee
      * @param string   $name
      * @param integer  $tag
      * @param callback $reader
      * @param callback $writer
      * @param callback $sizeCalculator
      */
-    public function __construct($name, $tag, $reader, $writer, $sizeCalculator)
+    public function __construct($extendee, $name, $tag, $reader, $writer, $sizeCalculator)
     {
         $this->tag            = $tag;
         $this->name           = $name;
         $this->reader         = $reader;
         $this->writer         = $writer;
+        $this->extendee       = $extendee;
         $this->sizeCalculator = $sizeCalculator;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExtendee()
+    {
+        return $this->extendee;
     }
 
     /**
