@@ -3,13 +3,14 @@
 namespace Protobuf;
 
 use InvalidArgumentException;
+use ArrayObject;
 
 /**
  * Scalar collection
  *
  * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  */
-class ScalarCollection extends BaseCollection
+class ScalarCollection extends ArrayObject implements Collection
 {
     /**
      * Adds a value to this collection
@@ -26,7 +27,7 @@ class ScalarCollection extends BaseCollection
             ));
         }
 
-        $this->values[] = $value;
+        $this[] = $value;
     }
 
     /**

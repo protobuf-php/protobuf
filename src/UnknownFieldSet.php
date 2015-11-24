@@ -2,12 +2,14 @@
 
 namespace Protobuf;
 
+use ArrayObject;
+
 /**
  * Used to keep track of fields which were seen when Unknown value parsing a message
  *
  * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  */
-class UnknownFieldSet extends BaseCollection
+class UnknownFieldSet extends ArrayObject implements Collection
 {
     /**
      * Adds an element to set.
@@ -16,6 +18,6 @@ class UnknownFieldSet extends BaseCollection
      */
     public function add(Unknown $unknown)
     {
-        $this->values[$unknown->tag] = $unknown;
+        $this->offsetSet($unknown->tag, $unknown);
     }
 }

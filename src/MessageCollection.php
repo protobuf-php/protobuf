@@ -3,13 +3,14 @@
 namespace Protobuf;
 
 use InvalidArgumentException;
+use ArrayObject;
 
 /**
  * Message collection
  *
  * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  */
-class MessageCollection extends BaseCollection
+class MessageCollection extends ArrayObject implements Collection
 {
     /**
      * Adds a message to this collection
@@ -18,7 +19,7 @@ class MessageCollection extends BaseCollection
      */
     public function add(Message $message)
     {
-        $this->values[] = $message;
+        $this[] = $message;
     }
 
     /**

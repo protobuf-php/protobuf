@@ -20,7 +20,7 @@ message Cat
         optional Cat animal = 100;
     }
 
-    optional bool declawed = 101;
+    optional bool declawed = 1;
 }
 
 message Dog
@@ -30,5 +30,5 @@ message Dog
         optional Dog animal = 102;
     }
 
-    optional uint32 bones_buried = 103;
+    optional uint32 bones_buried = 2;
 }

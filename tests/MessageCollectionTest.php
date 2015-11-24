@@ -20,7 +20,6 @@ class MessageCollectionTest extends TestCase
     public function testAddMessage()
     {
         $this->assertCount(0, $this->collection);
-        $this->assertTrue($this->collection->isEmpty());
 
         $messge1 = $this->getMock(Message::CLASS);
         $messge2 = $this->getMock(Message::CLASS);
@@ -30,7 +29,7 @@ class MessageCollectionTest extends TestCase
         $this->collection->add($messge2);
 
         $this->assertCount(2, $this->collection);
-        $this->assertEquals([$messge1, $messge2], $this->collection->getValues());
+        $this->assertEquals([$messge1, $messge2], $this->collection->getArrayCopy());
     }
 
     /**

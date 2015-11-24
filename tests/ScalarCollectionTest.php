@@ -19,14 +19,13 @@ class ScalarCollectionTest extends TestCase
     public function testAddMessage()
     {
         $this->assertCount(0, $this->collection);
-        $this->assertTrue($this->collection->isEmpty());
 
         $this->collection[] = 1;
 
         $this->collection->add(2);
 
         $this->assertCount(2, $this->collection);
-        $this->assertEquals([1, 2], $this->collection->getValues());
+        $this->assertEquals([1, 2], $this->collection->getArrayCopy());
     }
 
     /**

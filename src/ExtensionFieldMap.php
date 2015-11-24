@@ -4,23 +4,19 @@ namespace Protobuf;
 
 use InvalidArgumentException;
 use OutOfBoundsException;
+use SplObjectStorage;
 
 /**
  * A table of known extensions values
  *
  * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  */
-class ExtensionFieldMap extends BaseCollection
+class ExtensionFieldMap extends SplObjectStorage implements Collection
 {
-    /**
-     * @var array
-     */
-    protected $values = [];
-
     /**
      * @var string
      */
-    private $extendee;
+    protected $extendee;
 
     /**
      * @param string $extendee
@@ -31,95 +27,30 @@ class ExtensionFieldMap extends BaseCollection
     }
 
     /**
-     * Adds an element to set.
-     *
      * @param \Protobuf\Extension $extension
-     * @param mxied               $value
+     * @param mixed               $value
      */
     public function put(Extension $extension, $value)
     {
-        $extendee = trim($extension->getExtendee(), '\\');
-        $name     = $extension->getName();
-
-        if ($extendee !== $this->extendee) {
+        if (trim($extension->getExtendee(), '\\') !== $this->extendee) {
             throw new InvalidArgumentException(sprintf(
-                'Extension extendee must be a %s, %s given',
+                'Invalid extendee, %s is expected but %s given',
                 $this->extendee,
-                $extendee
+                $extension->getExtendee()
             ));
         }
 
-        $this->values[$name] = [$extension, $value];
+        $this->attach($extension, $value);
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Protobuf\Extension $key
+     *
+     * @return mixed
      */
-    public function isEmpty()
+    public function get(Extension $key)
     {
-        return empty($this->values);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function get($key)
-    {
-        if ( ! $key instanceof Extension) {
-            throw new InvalidArgumentException(sprintf(
-                'Argument 1 passed to %s must a instanceof \Protobuf\Extension, %s given',
-                __METHOD__,
-                is_object($key) ? get_class($key) : gettype($key)
-            ));
-        }
-
-        if ( ! isset($this->values[$key->getName()])) {
-            throw new OutOfBoundsException(sprintf("Undefined index '%s'", $key->getName()));
-        }
-
-        return $this->values[$key->getName()][1];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove($key)
-    {
-        $name = $extension->getName();
-
-        if ( ! isset($this->values[$name])) {
-            throw new OutOfBoundsException("Undefined index '$name'");
-        }
-
-        $removed = $this->values[$name];
-
-        unset($this->values[$name]);
-
-        return $removed[1];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getValues()
-    {
-        return $this->values;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function count()
-    {
-        return count($this->values);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getIterator()
-    {
-        return new ArrayIterator($this->values);
+        return $this->offsetGet($key);
     }
 
     /**
@@ -131,11 +62,10 @@ class ExtensionFieldMap extends BaseCollection
     {
         $size = 0;
 
-        foreach ($this->values as $entry) {
-            $extension = $entry[0];
-            $value     = $entry[1];
-
-            $size += $extension->serializedSize($context, $value);
+        for ($this->rewind(); $this->valid(); $this->next()) {
+            $extension = $this->current();
+            $value     = $this->getInfo();
+            $size     += $extension->serializedSize($context, $value);
         }
 
         return $size;
@@ -146,9 +76,9 @@ class ExtensionFieldMap extends BaseCollection
      */
     public function writeTo(WriteContext $context)
     {
-        foreach ($this->values as $entry) {
-            $extension = $entry[0];
-            $value     = $entry[1];
+        for ($this->rewind(); $this->valid(); $this->next()) {
+            $extension = $this->current();
+            $value     = $this->getInfo();
 
             $extension->writeTo($context, $value);
         }

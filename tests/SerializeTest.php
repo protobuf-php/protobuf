@@ -213,7 +213,7 @@ class SerializeTest extends TestCase
 
         $this->assertInstanceOf(Repeated::CLASS, $repeated);
         $this->assertInstanceOf(Collection::CLASS, $repeated->getStringList());
-        $this->assertEquals(['one', 'two', 'three'], $repeated->getStringList()->getValues());
+        $this->assertEquals(['one', 'two', 'three'], $repeated->getStringList()->getArrayCopy());
     }
 
     public function testReadRepeatedInt32()
@@ -223,7 +223,7 @@ class SerializeTest extends TestCase
 
         $this->assertInstanceOf(Repeated::CLASS, $repeated);
         $this->assertInstanceOf(Collection::CLASS, $repeated->getIntList());
-        $this->assertEquals([1, 2, 3], $repeated->getIntList()->getValues());
+        $this->assertEquals([1, 2, 3], $repeated->getIntList()->getArrayCopy());
     }
 
     public function testReadRepeatedNested()
@@ -251,7 +251,7 @@ class SerializeTest extends TestCase
 
         $this->assertInstanceOf(Repeated::CLASS, $repeated);
         $this->assertInstanceOf(Collection::CLASS, $repeated->getPackedList());
-        $this->assertEquals([1, 2, 3], $repeated->getPackedList()->getValues());
+        $this->assertEquals([1, 2, 3], $repeated->getPackedList()->getArrayCopy());
     }
 
     public function testReadComplexMessage()
@@ -341,37 +341,37 @@ class SerializeTest extends TestCase
 
         $values = $unrecognized->unknownFieldSet();
 
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(1));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(2));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(3));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(4));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(5));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(6));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(7));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(8));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(9));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(12));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(13));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(15));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(16));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(17));
-        $this->assertInstanceOf('Protobuf\Unknown', $values->get(18));
+        $this->assertInstanceOf('Protobuf\Unknown', $values[1]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[2]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[3]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[4]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[5]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[6]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[7]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[8]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[9]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[12]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[13]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[15]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[16]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[17]);
+        $this->assertInstanceOf('Protobuf\Unknown', $values[18]);
 
-        $this->assertEquals(4728057454355442093, $values->get(1)->value);
-        $this->assertEquals(1178657918, $values->get(2)->value);
-        $this->assertEquals(-123456789123456789, $values->get(3)->value);
-        $this->assertEquals(123456789123456789, $values->get(4)->value);
-        $this->assertEquals(-123456789, $values->get(5)->value);
-        $this->assertEquals(123456789123456789, $values->get(6)->value);
-        $this->assertEquals(123456789, $values->get(7)->value);
-        $this->assertEquals(1, $values->get(8)->value);
-        $this->assertEquals("foo", $values->get(9)->value);
-        $this->assertEquals("bar", $values->get(12)->value);
-        $this->assertEquals(123456789, $values->get(13)->value);
-        $this->assertEquals(4171510507, $values->get(15)->value);
-        $this->assertEquals(-123456789123456789, $values->get(16)->value);
-        $this->assertEquals(246913577, $values->get(17)->value);
-        $this->assertEquals(246913578246913577, $values->get(18)->value);
+        $this->assertEquals(4728057454355442093, $values[1]->value);
+        $this->assertEquals(1178657918, $values[2]->value);
+        $this->assertEquals(-123456789123456789, $values[3]->value);
+        $this->assertEquals(123456789123456789, $values[4]->value);
+        $this->assertEquals(-123456789, $values[5]->value);
+        $this->assertEquals(123456789123456789, $values[6]->value);
+        $this->assertEquals(123456789, $values[7]->value);
+        $this->assertEquals(1, $values[8]->value);
+        $this->assertEquals("foo", $values[9]->value);
+        $this->assertEquals("bar", $values[12]->value);
+        $this->assertEquals(123456789, $values[13]->value);
+        $this->assertEquals(4171510507, $values[15]->value);
+        $this->assertEquals(-123456789123456789, $values[16]->value);
+        $this->assertEquals(246913577, $values[17]->value);
+        $this->assertEquals(246913578246913577, $values[18]->value);
     }
 
     public function assertSerializedMessageSize($expectedContent, $message)
