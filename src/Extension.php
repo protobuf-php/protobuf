@@ -11,79 +11,22 @@ use Protobuf\ComputeSizeContext;
  *
  * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  */
-class Extension
+interface Extension
 {
     /**
-     * @var callback
+     * @return string
      */
-    private $sizeCalculator;
-
-    /**
-     * @var callback
-     */
-    private $writer;
-
-    /**
-     * @var callback
-     */
-    private $reader;
-
-    /**
-     * @var string
-     */
-    private $extendee;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var integer
-     */
-    private $tag;
-
-    /**
-     * @param string   $extendee
-     * @param string   $name
-     * @param integer  $tag
-     * @param callback $reader
-     * @param callback $writer
-     * @param callback $sizeCalculator
-     */
-    public function __construct($extendee, $name, $tag, $reader, $writer, $sizeCalculator)
-    {
-        $this->tag            = $tag;
-        $this->name           = $name;
-        $this->reader         = $reader;
-        $this->writer         = $writer;
-        $this->extendee       = $extendee;
-        $this->sizeCalculator = $sizeCalculator;
-    }
+    public function getExtendee();
 
     /**
      * @return string
      */
-    public function getExtendee()
-    {
-        return $this->extendee;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+    public function getName();
 
     /**
      * @return integer
      */
-    public function getTag()
-    {
-        return $this->tag;
-    }
+    public function getTag();
 
     /**
      * @param \Protobuf\ComputeSizeContext $context
@@ -91,19 +34,13 @@ class Extension
      *
      * @return integer
      */
-    public function serializedSize(ComputeSizeContext $context, $value)
-    {
-        return call_user_func($this->sizeCalculator, $context, $value);
-    }
+    public function serializedSize(ComputeSizeContext $context, $value);
 
     /**
      * @param \Protobuf\WriteContext $context
      * @param mixed                  $value
      */
-    public function writeTo(WriteContext $context, $value)
-    {
-        call_user_func($this->writer, $context, $value);
-    }
+    public function writeTo(WriteContext $context, $value);
 
     /**
      * @param \Protobuf\ReadContext $context
@@ -111,8 +48,5 @@ class Extension
      *
      * @return mixed
      */
-    public function readFrom(ReadContext $context, $wire)
-    {
-        return call_user_func($this->reader, $context, $wire);
-    }
+    public function readFrom(ReadContext $context, $wire);
 }

@@ -13,6 +13,11 @@ message Animal
     required Type type = 1;
 }
 
+extend Animal
+{
+    optional string habitat = 200;
+}
+
 message Cat
 {
     extend Animal
