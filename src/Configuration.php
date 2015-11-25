@@ -47,24 +47,14 @@ class Configuration
     /**
      * Return a ExtensionRegistry.
      *
-     * @param \Protobuf\Extension $extension
+     * @return \Protobuf\ExtensionRegistry
      */
-    public function registerExtension(Extension $extension)
+    public function getExtensionRegistry()
     {
         if ($this->extensionRegistry === null) {
             $this->extensionRegistry = new ExtensionRegistry();
         }
 
-        $this->extensionRegistry->add($extension);
-    }
-
-    /**
-     * Return a ExtensionRegistry.
-     *
-     * @return \Protobuf\ExtensionRegistry
-     */
-    public function getExtensionRegistry()
-    {
         return $this->extensionRegistry;
     }
 

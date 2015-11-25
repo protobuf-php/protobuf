@@ -1,0 +1,10 @@
+package ProtobufTest.Protos.Options;
+
+import "php.proto";
+
+option (php.package) = "ProtobufTest.Protos.Options";
+
+message SimpleMessage
+{
+
+}

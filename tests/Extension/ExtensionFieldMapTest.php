@@ -15,13 +15,7 @@ class ExtensionFieldMapTest extends TestCase
     {
         $animal     = new Cat();
         $extensions = new ExtensionFieldMap(Animal::CLASS);
-        $extension  = $this->getMock('\Protobuf\Extension');
-
-        $extension->method('getTag')
-            ->willReturn(100);
-
-        $extension->method('getExtendee')
-            ->willReturn(Animal::CLASS);
+        $extension  = new \Protobuf\Extension(Animal::CLASS, 'animal', 100, function () {}, function () {}, function () {});
 
         $this->assertCount(0, $extensions);
 
@@ -40,13 +34,7 @@ class ExtensionFieldMapTest extends TestCase
     {
         $animal     = new Cat();
         $extensions = new ExtensionFieldMap(Animal::CLASS);
-        $extension  = $this->getMock('\Protobuf\Extension');
-
-        $extension->method('getTag')
-            ->willReturn(100);
-
-        $extension->method('getExtendee')
-            ->willReturn(Cat::CLASS);
+        $extension  = new \Protobuf\Extension(Cat::CLASS, 'animal', 200, function () {}, function () {}, function () {});
 
         $extensions->put($extension, $animal);
     }

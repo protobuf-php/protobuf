@@ -30,23 +30,14 @@ class ConfigurationTest extends TestCase
 
     public function testGetAndSetExtensionRegistry()
     {
-        $mock = $this->getMock('Protobuf\ExtensionRegistry');
+        $mock     = $this->getMock('Protobuf\ExtensionRegistry');
+        $registry = $this->configuration->getExtensionRegistry();
 
-        $this->assertNull($this->configuration->getExtensionRegistry());
+        $this->assertInstanceOf('Protobuf\ExtensionRegistry', $registry);
+        $this->assertSame($registry, $this->configuration->getExtensionRegistry());
 
         $this->configuration->setExtensionRegistry($mock);
 
         $this->assertSame($mock, $this->configuration->getExtensionRegistry());
-    }
-
-    public function testRegisterExtension()
-    {
-        $mock = $this->getMock('Protobuf\Extension', [], [], '', false);
-
-        $this->assertNull($this->configuration->getExtensionRegistry());
-
-        $this->configuration->registerExtension($mock);
-
-        $this->assertInstanceOf('Protobuf\ExtensionRegistry', $this->configuration->getExtensionRegistry());
     }
 }

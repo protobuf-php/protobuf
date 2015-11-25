@@ -314,7 +314,7 @@ class SerializeTest extends TestCase
 
     public function testReadExtensionMessage()
     {
-        $this->config->registerExtension(Extension\Cat::animal());
+        Extension\Extension::registerAllExtensions($this->config->getExtensionRegistry());
 
         $binary = $this->getProtoContent('extension-cat.bin');
         $animal = Extension\Animal::fromStream($binary, $this->config);

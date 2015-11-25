@@ -1,5 +1,9 @@
 package ProtobufTest.Protos.Extension;
 
+option java_multiple_files = true;
+
+// Animal
+
 message Animal
 {
     extensions 100 to max;
@@ -36,4 +40,46 @@ message Dog
     }
 
     optional uint32 bones_buried = 2;
+}
+
+//  command
+
+message Command
+{
+    extensions 100 to max;
+
+    enum CommandType
+    {
+        VERSION = 1;
+        LOGIN   = 2;
+    }
+
+    required CommandType type = 1;
+}
+
+extend Command
+{
+    optional bool verbose = 200 [default = false];
+}
+
+message VersionCommand
+{
+    extend Command
+    {
+        optional VersionCommand cmd = 100;
+    }
+
+    required fixed32 protocol = 1;
+    repeated fixed32 versions = 2;
+}
+
+message LoginCommand
+{
+    extend Command
+    {
+        optional LoginCommand cmd = 101;
+    }
+
+    required string username = 1;
+    required string password = 2;
 }

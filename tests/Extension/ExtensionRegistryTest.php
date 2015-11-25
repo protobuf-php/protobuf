@@ -13,13 +13,7 @@ class ExtensionRegistryTest extends TestCase
     public function testAddAndFindByFieldNumber()
     {
         $registry  = new ExtensionRegistry();
-        $extension = $this->getMock('\Protobuf\Extension');
-
-        $extension->method('getTag')
-            ->willReturn(100);
-
-        $extension->method('getExtendee')
-            ->willReturn(Animal::CLASS);
+        $extension = new \Protobuf\Extension(Animal::CLASS, 'animal', 100, function () {}, function () {}, function () {});
 
         $this->assertNull($registry->findByNumber(Animal::CLASS, 100));
 
