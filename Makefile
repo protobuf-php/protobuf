@@ -35,7 +35,12 @@ proto-clean:
 	rm -rf $(BASEDIR)/tests/Protos/*;
 
 proto-generate: proto-clean
-	php $(BASEDIR)/vendor/bin/protobuf --psr4 ProtobufTest\\Protos -o $(BASEDIR)/tests/Protos $(BASEDIR)/tests/Resources/*.proto
+	php $(BASEDIR)/vendor/bin/protobuf \
+		--psr4 ProtobufTest\\Protos \
+		-o $(BASEDIR)/tests/Protos \
+		-i $(BASEDIR)/vendor/protobuf-php/google-protobuf-proto/src \
+		-i $(BASEDIR)/tests/Resources \
+		$(BASEDIR)/tests/Resources/*.proto
 
 phpunit: proto-generate
 	php $(BASEDIR)/vendor/bin/phpunit -v;
