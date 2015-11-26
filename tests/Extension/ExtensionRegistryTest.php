@@ -5,15 +5,15 @@ namespace ProtobufTest\Extension;
 use ProtobufTest\TestCase;
 use ProtobufTest\Protos\Extension\Animal;
 
-use Protobuf\ExtensionRegistry;
-use Protobuf\Extension;
+use Protobuf\Extension\ExtensionRegistry;
+use Protobuf\Extension\ExtensionField;
 
 class ExtensionRegistryTest extends TestCase
 {
     public function testAddAndFindByFieldNumber()
     {
         $registry  = new ExtensionRegistry();
-        $extension = new \Protobuf\Extension(Animal::CLASS, 'animal', 100, function () {}, function () {}, function () {});
+        $extension = new ExtensionField(Animal::CLASS, 'animal', 100, function () {}, function () {}, function () {});
 
         $this->assertNull($registry->findByNumber(Animal::CLASS, 100));
 

@@ -1,10 +1,14 @@
 <?php
 
-namespace Protobuf;
+namespace Protobuf\Extension;
 
 use InvalidArgumentException;
 use OutOfBoundsException;
 use SplObjectStorage;
+
+use Protobuf\Collection;
+use Protobuf\WriteContext;
+use Protobuf\ComputeSizeContext;
 
 /**
  * A table of known extensions values
@@ -27,10 +31,10 @@ class ExtensionFieldMap extends SplObjectStorage implements Collection
     }
 
     /**
-     * @param \Protobuf\Extension $extension
-     * @param mixed               $value
+     * @param \Protobuf\Extension\ExtensionField $extension
+     * @param mixed                              $value
      */
-    public function put(Extension $extension, $value)
+    public function put(ExtensionField $extension, $value)
     {
         if (trim($extension->getExtendee(), '\\') !== $this->extendee) {
             throw new InvalidArgumentException(sprintf(
@@ -44,11 +48,11 @@ class ExtensionFieldMap extends SplObjectStorage implements Collection
     }
 
     /**
-     * @param \Protobuf\Extension $key
+     * @param \Protobuf\Extension\ExtensionField $key
      *
      * @return mixed
      */
-    public function get(Extension $key)
+    public function get(ExtensionField $key)
     {
         return $this->offsetGet($key);
     }

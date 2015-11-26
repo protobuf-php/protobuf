@@ -3,6 +3,7 @@
 namespace Protobuf;
 
 use Protobuf\Binary\Platform\PlatformFactory;
+use Protobuf\Extension\ExtensionRegistry;
 use Protobuf\Binary\SizeCalculator;
 use Protobuf\Binary\StreamWriter;
 use Protobuf\Binary\StreamReader;
@@ -15,7 +16,7 @@ use Protobuf\Binary\StreamReader;
 class Configuration
 {
     /**
-     * @var \Protobuf\Binary\StreamReader
+     * @var \Protobuf\Extension\ExtensionRegistry
      */
     private $extensionRegistry;
 
@@ -47,7 +48,7 @@ class Configuration
     /**
      * Return a ExtensionRegistry.
      *
-     * @return \Protobuf\ExtensionRegistry
+     * @return \Protobuf\Extension\ExtensionRegistry
      */
     public function getExtensionRegistry()
     {
@@ -61,7 +62,7 @@ class Configuration
     /**
      * Set a ExtensionRegistry.
      *
-     * @param \Protobuf\ExtensionRegistry $extensionRegistry
+     * @param \Protobuf\Extension\ExtensionRegistry $extensionRegistry
      */
     public function setExtensionRegistry(ExtensionRegistry $extensionRegistry)
     {
@@ -171,12 +172,9 @@ class Configuration
      */
     public function createReadContext($stream)
     {
-        $reader  = $this->getStreamReader();
-        $context = new ReadContext($stream, $reader);
-
-        if ($this->extensionRegistry !== null) {
-            $context->setExtensionRegistry($this->extensionRegistry);
-        }
+        $reader   = $this->getStreamReader();
+        $registry = $this->extensionRegistry;
+        $context  = new ReadContext($stream, $reader, $registry);
 
         return $context;
     }

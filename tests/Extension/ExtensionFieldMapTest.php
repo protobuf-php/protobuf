@@ -6,8 +6,8 @@ use ProtobufTest\TestCase;
 use ProtobufTest\Protos\Extension\Cat;
 use ProtobufTest\Protos\Extension\Animal;
 
-use Protobuf\ExtensionFieldMap;
-use Protobuf\Extension;
+use Protobuf\Extension\ExtensionFieldMap;
+use Protobuf\Extension\ExtensionField;
 
 class ExtensionFieldMapTest extends TestCase
 {
@@ -15,7 +15,7 @@ class ExtensionFieldMapTest extends TestCase
     {
         $animal     = new Cat();
         $extensions = new ExtensionFieldMap(Animal::CLASS);
-        $extension  = new \Protobuf\Extension(Animal::CLASS, 'animal', 100, function () {}, function () {}, function () {});
+        $extension  = new ExtensionField(Animal::CLASS, 'animal', 100, function () {}, function () {}, function () {});
 
         $this->assertCount(0, $extensions);
 
@@ -34,7 +34,7 @@ class ExtensionFieldMapTest extends TestCase
     {
         $animal     = new Cat();
         $extensions = new ExtensionFieldMap(Animal::CLASS);
-        $extension  = new \Protobuf\Extension(Cat::CLASS, 'animal', 200, function () {}, function () {}, function () {});
+        $extension  = new ExtensionField(Cat::CLASS, 'animal', 200, function () {}, function () {}, function () {});
 
         $extensions->put($extension, $animal);
     }

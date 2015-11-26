@@ -4,6 +4,7 @@ namespace Protobuf;
 
 use Protobuf\Stream;
 use Protobuf\Binary\StreamReader;
+use Protobuf\Extension\ExtensionRegistry;
 
 /**
  * Read context
@@ -13,7 +14,7 @@ use Protobuf\Binary\StreamReader;
 class ReadContext
 {
     /**
-     * @var \Protobuf\Binary\StreamReader
+     * @var \Protobuf\Extension\ExtensionRegistry
      */
     private $extensionRegistry;
 
@@ -33,39 +34,29 @@ class ReadContext
     private $length;
 
     /**
-     * @param \Protobuf\Stream|resource|string $stream
-     * @param \Protobuf\Binary\StreamReader    $reader
-     * @param integer                          $length
+     * @param \Protobuf\Stream|resource|string      $stream
+     * @param \Protobuf\Binary\StreamReader         $reader
+     * @param \Protobuf\Extension\ExtensionRegistry $extensionRegistry
      */
-    public function __construct($stream, StreamReader $reader, $length = null)
+    public function __construct($stream, StreamReader $reader, ExtensionRegistry $extensionRegistry = null)
     {
         if ( ! $stream instanceof \Protobuf\Stream) {
             $stream = Stream::create($stream);
         }
 
-        $this->stream = $stream;
-        $this->reader = $reader;
-        $this->length = $length;
+        $this->stream            = $stream;
+        $this->reader            = $reader;
+        $this->extensionRegistry = $extensionRegistry;
     }
 
     /**
      * Return a ExtensionRegistry.
      *
-     * @return \Protobuf\ExtensionRegistry
+     * @return \Protobuf\Extension\ExtensionRegistry
      */
     public function getExtensionRegistry()
     {
         return $this->extensionRegistry;
-    }
-
-    /**
-     * Set a ExtensionRegistry.
-     *
-     * @param \Protobuf\ExtensionRegistry $extensionRegistry
-     */
-    public function setExtensionRegistry(ExtensionRegistry $extensionRegistry)
-    {
-        $this->extensionRegistry = $extensionRegistry;
     }
 
     /**

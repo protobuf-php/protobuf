@@ -1,6 +1,6 @@
 <?php
 
-namespace Protobuf;
+namespace Protobuf\Extension;
 
 /**
  * A table of known extensions indexed by extendee and field number
@@ -25,9 +25,9 @@ class ExtensionRegistry
     /**
      * Adds an element to the registry.
      *
-     * @param \Protobuf\Extension $extension
+     * @param \Protobuf\Extension\ExtensionField $extension
      */
-    public function add(Extension $extension)
+    public function add(ExtensionField $extension)
     {
         $extendee = trim($extension->getExtendee(), '\\');
         $number   = $extension->getTag();
@@ -45,7 +45,7 @@ class ExtensionRegistry
      * @param string  $className
      * @param integer $number
      *
-     * @return \Protobuf\Extension|null
+     * @return \Protobuf\Extension\ExtensionField|null
      */
     public function findByNumber($className, $number)
     {
