@@ -69,8 +69,14 @@ message VersionCommand
         optional VersionCommand cmd = 100;
     }
 
-    required fixed32 protocol = 1;
-    repeated fixed32 versions = 2;
+    enum Protocol
+    {
+        V1 = 1;
+        V2 = 2;
+    }
+
+    required Protocol protocol = 1;
+    required fixed32 version   = 2;
 }
 
 message LoginCommand

@@ -179,7 +179,7 @@ class SerializeTest extends TestCase
         $this->assertSerializedMessageSize($expected, $root);
     }
 
-    public function testWriteExtensionMessage()
+    public function testWriteAnimalExtensionMessage()
     {
         $cat    = new Extension\Cat();
         $animal = new Extension\Animal();
@@ -189,11 +189,30 @@ class SerializeTest extends TestCase
         $animal->setType(Extension\Animal\Type::CAT());
         $animal->extensions()->put(Extension\Cat::animal(), $cat);
 
-        $expected = $this->getProtoContent('extension-cat.bin');
+        $expected = $this->getProtoContent('extension-animal-cat.bin');
         $actual   = $animal->toStream();
 
         $this->assertEquals($expected, (string) $actual);
         $this->assertSerializedMessageSize($expected, $animal);
+    }
+
+    public function testWriteCommandExtensionMessage()
+    {
+        $version = new Extension\VersionCommand();
+        $command = new Extension\Command();
+
+        $version->setVersion(1);
+        $version->setProtocol(Extension\VersionCommand\Protocol::V1());
+
+        $command->setType(Extension\Command\CommandType::VERSION());
+        $command->extensions()->put(Extension\Extension::verbose(), true);
+        $command->extensions()->put(Extension\VersionCommand::cmd(), $version);
+
+        $expected = $this->getProtoContent('extension-command-version.bin');
+        $actual   = $command->toStream();
+
+        $this->assertEquals($expected, (string) $actual);
+        $this->assertSerializedMessageSize($expected, $command);
     }
 
     public function testReadSimpleMessage()
@@ -312,11 +331,11 @@ class SerializeTest extends TestCase
         $this->assertEquals('/Users', $node2->getParent()->getPath());
     }
 
-    public function testReadExtensionMessage()
+    public function testReadExtensionAnimalMessage()
     {
         Extension\Extension::registerAllExtensions($this->config->getExtensionRegistry());
 
-        $binary = $this->getProtoContent('extension-cat.bin');
+        $binary = $this->getProtoContent('extension-animal-cat.bin');
         $animal = Extension\Animal::fromStream($binary, $this->config);
 
         $this->assertInstanceOf(Extension\Animal::CLASS, $animal);
@@ -328,6 +347,27 @@ class SerializeTest extends TestCase
 
         $this->assertInstanceOf(Extension\Cat::CLASS, $cat);
         $this->assertTrue($cat->getDeclawed());
+    }
+
+    public function testReadExtensionCommandMessage()
+    {
+        Extension\Extension::registerAllExtensions($this->config->getExtensionRegistry());
+
+        $binary = $this->getProtoContent('extension-command-version.bin');
+        $command = Extension\Command::fromStream($binary, $this->config);
+
+        $this->assertInstanceOf(Extension\Command::CLASS, $command);
+        $this->assertInstanceOf(Collection::CLASS, $command->extensions());
+        $this->assertEquals(Extension\Command\CommandType::VERSION(), $command->getType());
+
+        $extensions = $command->extensions();
+        $verbose    = $extensions->get(Extension\Extension::verbose());
+        $version    = $extensions->get(Extension\VersionCommand::cmd());
+
+        $this->assertTrue($verbose);
+        $this->assertInstanceOf(Extension\VersionCommand::CLASS, $version);
+        $this->assertEquals(1, $version->getVersion());
+        $this->assertSame(Extension\VersionCommand\Protocol::V1(), $version->getProtocol());
     }
 
     public function testUnknownFieldSet()
