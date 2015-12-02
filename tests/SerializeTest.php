@@ -15,6 +15,7 @@ use ProtobufTest\Protos\AddressBook;
 use ProtobufTest\Protos\Unrecognized;
 use ProtobufTest\Protos\Person\PhoneType;
 use ProtobufTest\Protos\Person\PhoneNumber;
+use ProtobufTest\Protos\Options\ParentMessage;
 
 class SerializeTest extends TestCase
 {
@@ -151,6 +152,26 @@ class SerializeTest extends TestCase
 
         $this->assertEquals($expected, (string) $actual);
         $this->assertSerializedMessageSize($expected, $book);
+    }
+
+    public function testWritePhpOptionsMessage()
+    {
+        $parentMessage = new ParentMessage();
+        $innerMessage1 = new ParentMessage\InnerMessage();
+        $innerMessage2 = new ParentMessage\InnerMessage();
+
+        $innerMessage1->setEnum(ParentMessage\InnerMessage\InnerMessageEnum::VALUE1());
+        $innerMessage2->setEnum(ParentMessage\InnerMessage\InnerMessageEnum::VALUE2());
+
+        $parentMessage->addInner($innerMessage1);
+        $parentMessage->addInner($innerMessage2);
+        $parentMessage->setEnum(ParentMessage\InnerEnum::VALUE1());
+
+        $expected = $this->getProtoContent('php_options.bin');
+        $actual   = $parentMessage->toStream();
+
+        $this->assertEquals($expected, (string) $actual);
+        $this->assertSerializedMessageSize($expected, $parentMessage);
     }
 
     public function testWriteTreeMessage()
@@ -304,6 +325,25 @@ class SerializeTest extends TestCase
 
         $this->assertEquals($person2->getPhoneList()[0]->getNumber(), '3493123123');
         $this->assertEquals($person2->getPhoneList()[0]->getType(), PhoneType::WORK());
+    }
+
+    public function testReadPhpOptionsMessage()
+    {
+        $binary  = $this->getProtoContent('php_options.bin');
+        $message = ParentMessage::fromStream($binary);
+
+        $this->assertInstanceOf(ParentMessage::CLASS, $message);
+        $this->assertCount(2, $message->getInnerList());
+        $this->assertSame(ParentMessage\InnerEnum::VALUE1(), $message->getEnum());
+
+        $inner1 = $message->getInnerList()[0];
+        $inner2 = $message->getInnerList()[1];
+
+        $this->assertInstanceOf(ParentMessage\InnerMessage::CLASS, $inner1);
+        $this->assertInstanceOf(ParentMessage\InnerMessage::CLASS, $inner2);
+
+        $this->assertSame(ParentMessage\InnerMessage\InnerMessageEnum::VALUE1(), $inner1->getEnum());
+        $this->assertSame(ParentMessage\InnerMessage\InnerMessageEnum::VALUE2(), $inner2->getEnum());
     }
 
     public function testReadTreeMessage()

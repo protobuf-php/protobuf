@@ -36,11 +36,13 @@ class ExtensionFieldMap extends SplObjectStorage implements Collection
      */
     public function put(ExtensionField $extension, $value)
     {
-        if (trim($extension->getExtendee(), '\\') !== $this->extendee) {
+        $extendee = trim($extension->getExtendee(), '\\');
+
+        if ($extendee !== $this->extendee) {
             throw new InvalidArgumentException(sprintf(
                 'Invalid extendee, %s is expected but %s given',
                 $this->extendee,
-                $extension->getExtendee()
+                $extendee
             ));
         }
 

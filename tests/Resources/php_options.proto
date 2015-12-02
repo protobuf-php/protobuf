@@ -1,10 +1,28 @@
-package ProtobufTest.Protos.Options;
+package ProtobufTest.Protos;
 
 import "php.proto";
 
 option (php.package) = "ProtobufTest.Protos.Options";
 
-message SimpleMessage
+message ParentMessage
 {
+    enum InnerEnum
+    {
+        VALUE1 = 1;
+        VALUE2 = 2;
+    }
 
+    message InnerMessage
+    {
+        enum InnerMessageEnum
+        {
+            VALUE1 = 1;
+            VALUE2 = 2;
+        }
+
+        required InnerMessageEnum enum = 1;
+    }
+
+    required InnerEnum enum = 1;
+    repeated InnerMessage inner = 2;
 }
