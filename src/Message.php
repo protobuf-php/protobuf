@@ -64,4 +64,11 @@ interface Message
      * @return \Protobuf\UnknownFieldSet
      */
     public function unknownFieldSet();
+
+    /**
+     * Obtain the map of extensions in this message.
+     *
+     * @return \Protobuf\Extension\ExtensionFieldMap
+     */
+    public function extensions();
 }

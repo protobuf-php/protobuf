@@ -1,3 +1,5 @@
+syntax = "proto2";
+
 package ProtobufTest.Protos.Extension;
 
 option java_multiple_files = true;
