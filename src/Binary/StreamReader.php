@@ -295,18 +295,6 @@ class StreamReader
     }
 
     /**
-     * Decode a string.
-     *
-     * @param \Protobuf\Stream $stream
-     *
-     * @return string
-     */
-    public function readBytes(Stream $stream)
-    {
-        return $this->readString($stream);
-    }
-
-    /**
      * Read unknown scalar value.
      *
      * @param \Protobuf\Stream $stream
