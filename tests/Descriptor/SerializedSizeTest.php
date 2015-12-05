@@ -4,6 +4,7 @@ namespace ProtobufTest\Descriptor;
 
 use Protobuf\Binary\SizeCalculator;
 use Protobuf\ComputeSizeContext;
+use Protobuf\Stream;
 
 use ProtobufTest\TestCase;
 use ProtobufTest\Protos\Simple;
@@ -21,7 +22,6 @@ class SerializedSizeTest extends TestCase
         $context    = $this->getMock(ComputeSizeContext::CLASS, [], [], '', false);
 
         $simple->setBool(true);
-        $simple->setBytes("bar");
         $simple->setString("foo");
         $simple->setFloat(12345.123);
         $simple->setUint32(123456789);
@@ -34,6 +34,7 @@ class SerializedSizeTest extends TestCase
         $simple->setUint64(123456789123456789);
         $simple->setFixed64(123456789123456789);
         $simple->setSint64(-123456789123456789);
+        $simple->setBytes(Stream::create("bar"));
         $simple->setSfixed64(-123456789123456789);
 
         $context->expects($this->once())
@@ -49,12 +50,15 @@ class SerializedSizeTest extends TestCase
                 [123456789, 4],
             ]));
 
-        $calculator->expects($this->exactly(2))
+        $calculator->expects($this->once())
             ->method('computeStringSize')
-            ->will($this->returnValueMap([
-                ["foo", 3],
-                ["bar", 3]
-            ]));
+            ->with('foo')
+            ->willReturn(3);
+
+        $calculator->expects($this->once())
+            ->method('computeByteStreamSize')
+            ->with('bar')
+            ->willReturn(3);
 
         $calculator->expects($this->once())
             ->method('computeZigzag32Size')

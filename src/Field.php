@@ -119,8 +119,9 @@ class Field
             case self::TYPE_BOOL:
                 return 'bool';
             case self::TYPE_STRING:
-            case self::TYPE_BYTES:
                 return 'string';
+            case self::TYPE_BYTES:
+                return '\Protobuf\Stream';
             default:
                 return null;
         }

@@ -269,6 +269,20 @@ class StreamWriter
     }
 
     /**
+     * Encode a stream of bytes.
+     *
+     * @param \Protobuf\Stream $stream
+     * @param \Protobuf\Stream $value
+     */
+    public function writeByteStream(Stream $stream, Stream $value)
+    {
+        $length = $value->getSize();
+
+        $this->writeVarint($stream, $length);
+        $stream->writeStream($value, $length);
+    }
+
+    /**
      * Write the given stream.
      *
      * @param \Protobuf\Stream $stream

@@ -166,6 +166,36 @@ class Stream
     }
 
     /**
+     * Read stream
+     *
+     * @param int $length
+     *
+     * @return \Protobuf\Stream
+     *
+     * @throws \RuntimeException
+     */
+    public function readStream($length)
+    {
+        $stream  = self::fromString();
+        $target  = $stream->stream;
+        $source  = $this->stream;
+
+        if ($length < 1) {
+            return $stream;
+        }
+
+        $written = stream_copy_to_stream($source, $target, $length);
+
+        if ($written !== $length) {
+            throw new RuntimeException('Failed to read stream with ' . $length . ' bytes');
+        }
+
+        $stream->seek(0);
+
+        return $stream;
+    }
+
+    /**
      * Write data to the stream
      *
      * @param string $bytes

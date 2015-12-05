@@ -125,6 +125,21 @@ class SizeCalculator
     }
 
     /**
+     * Compute the number of bytes that would be needed to encode a stream of bytes.
+     *
+     * @param \Protobuf\Stream $value
+     *
+     * @return integer
+     */
+    public function computeByteStreamSize(Stream $value)
+    {
+        $length = $value->getSize();
+        $size   = $length + $this->computeVarintSize($length);
+
+        return $size;
+    }
+
+    /**
      * Compute the number of bytes that would be needed to encode a sFixed32.
      *
      * @return integer

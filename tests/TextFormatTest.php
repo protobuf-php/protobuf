@@ -2,6 +2,7 @@
 
 namespace ProtobufTest;
 
+use Protobuf\Stream;
 use Protobuf\TextFormat;
 use ProtobufTest\TestCase;
 use ProtobufTest\Protos\Tree;
@@ -29,7 +30,6 @@ class TextFormatTest extends TestCase
         $simple = new Simple();
 
         $simple->setBool(true);
-        $simple->setBytes("bar");
         $simple->setString("foo");
         $simple->setFloat(12345.123);
         $simple->setUint32(123456789);
@@ -42,6 +42,7 @@ class TextFormatTest extends TestCase
         $simple->setUint64(123456789123456789);
         $simple->setFixed64(123456789123456789);
         $simple->setSint64(-123456789123456789);
+        $simple->setBytes(Stream::create("bar"));
         $simple->setSfixed64(-123456789123456789);
 
         $expected = $this->getProtoContent('simple.txt');

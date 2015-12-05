@@ -108,6 +108,10 @@ class TextFormat
             return $value->name();
         }
 
+        if ($value instanceof Stream) {
+            return json_encode($value->__toString());
+        }
+
         return json_encode($value);
     }
 }

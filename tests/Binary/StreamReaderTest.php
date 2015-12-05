@@ -52,7 +52,8 @@ class StreamReaderTest extends TestCase
         $this->assertEquals('foo', $reader->readString($stream));
 
         $this->assertNextTagWire($reader, $stream, 12, WireFormat::WIRE_LENGTH);
-        $this->assertEquals('bar', $reader->readBytes($stream));
+        $this->assertInstanceOf('Protobuf\Stream', ($byteStream = $reader->readByteStream($stream)));
+        $this->assertEquals('bar', (string) $byteStream);
 
         $this->assertNextTagWire($reader, $stream, 13, WireFormat::WIRE_VARINT);
         $this->assertEquals(123456789, $reader->readVarint($stream));

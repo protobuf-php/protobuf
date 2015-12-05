@@ -306,4 +306,28 @@ class SizeCalculatorTest extends TestCase
 
         $this->assertEquals($streamSize, $actualSize);
     }
+
+    public function providerByteStream()
+    {
+        return [
+            [Stream::create('foo')],
+            [Stream::create('http://www.lipsum.com/')],
+            [Stream::create('Neque porro quisquam est qui dolorem ipsum quia dolor sit amet')]
+        ];
+    }
+
+    /**
+     * @dataProvider providerByteStream
+     */
+    public function testComputeByteStreamSize($value)
+    {
+        $stream = Stream::create();
+
+        $this->writer->writeByteStream($stream, $value);
+
+        $streamSize = $stream->getSize();
+        $actualSize = $this->calculator->computeByteStreamSize($value);
+
+        $this->assertEquals($streamSize, $actualSize);
+    }
 }

@@ -93,6 +93,22 @@ class StreamTest extends TestCase
         $this->assertEquals('foo', (string) $target);
     }
 
+    public function testReadStream()
+    {
+        $source = Stream::create('FOObar');
+        $read1  = $source->readStream(3);
+        $read2  = $source->readStream(3);
+
+        $this->assertInstanceOf('Protobuf\Stream', $read1);
+        $this->assertInstanceOf('Protobuf\Stream', $read2);
+
+        $this->assertEquals(3, $read1->getSize());
+        $this->assertEquals(3, $read2->getSize());
+
+        $this->assertEquals('FOO', (string) $read1);
+        $this->assertEquals('bar', (string) $read2);
+    }
+
     public function testPositionOfResource()
     {
         $handle = fopen(__FILE__, 'r');

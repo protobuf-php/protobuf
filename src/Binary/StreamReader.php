@@ -280,6 +280,21 @@ class StreamReader
     }
 
     /**
+     * Decode a stream of bytes.
+     *
+     * @param \Protobuf\Stream $stream
+     *
+     * @return \Protobuf\Stream
+     */
+    public function readByteStream(Stream $stream)
+    {
+        $length = $this->readVarint($stream);
+        $value  = $stream->readStream($length);
+
+        return $value;
+    }
+
+    /**
      * Decode a string.
      *
      * @param \Protobuf\Stream $stream
@@ -288,10 +303,7 @@ class StreamReader
      */
     public function readBytes(Stream $stream)
     {
-        $length = $this->readVarint($stream);
-        $string = $stream->read($length);
-
-        return $string;
+        return $this->readString($stream);
     }
 
     /**

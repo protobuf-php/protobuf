@@ -24,7 +24,6 @@ class SerializeTest extends TestCase
         $simple = new Simple();
 
         $simple->setBool(true);
-        $simple->setBytes("bar");
         $simple->setString("foo");
         $simple->setFloat(12345.123);
         $simple->setUint32(123456789);
@@ -37,6 +36,7 @@ class SerializeTest extends TestCase
         $simple->setUint64(123456789123456789);
         $simple->setFixed64(123456789123456789);
         $simple->setSint64(-123456789123456789);
+        $simple->setBytes(Stream::create("bar"));
         $simple->setSfixed64(-123456789123456789);
 
         $expected = $this->getProtoContent('simple.bin');

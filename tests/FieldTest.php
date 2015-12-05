@@ -17,7 +17,7 @@ class FieldTest extends TestCase
             [Field::TYPE_FLOAT,     'float'],
 
             [Field::TYPE_STRING,    'string'],
-            [Field::TYPE_BYTES,     'string'],
+            [Field::TYPE_BYTES,     '\Protobuf\Stream'],
 
             [Field::TYPE_INT64,     'int'],
             [Field::TYPE_UINT64,    'int'],

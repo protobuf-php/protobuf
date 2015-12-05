@@ -74,8 +74,8 @@ class ProtocSerializeTest extends TestCase
             ['string', ''],
             ['string', 'foo'],
 
-            ['bytes', ''],
-            ['bytes', 'foo'],
+            ['bytes', Stream::create('')],
+            ['bytes', Stream::create('foo')],
 
             ['uint32', 0],
             ['uint32', 1],
@@ -115,15 +115,26 @@ class ProtocSerializeTest extends TestCase
      */
     public function testEncodeSimpleMessageComparingTypesWithProtoc($field, $value)
     {
+        $escaped = $value;
         $proto   = 'simple';
         $message = new Simple();
         $setter  = 'set' . ucfirst($field);
         $class   = 'ProtobufTest.Protos.Simple';
 
+        if (is_string($value)) {
+            $escaped  = '"' . $value . '"';
+        }
+
+        if ($value instanceof \Protobuf\Stream) {
+            $tell    = $value->tell();
+            $escaped = '"' . $value . '"';
+
+            $value->seek($tell);
+        }
+
         $message->$setter($value);
 
         $encoded  = $message->toStream();
-        $escaped  = is_string($value) ? '"'.$value.'"' : $value;
         $expected = $this->executeProtoc("$field: $escaped", $class, $proto);
 
         $this->assertEquals(bin2hex($expected), bin2hex($encoded), "Encoding $field with value $value");
@@ -134,12 +145,23 @@ class ProtocSerializeTest extends TestCase
      */
     public function testDecodeSimpleMessageComparingTypesWithProtoc($field, $value)
     {
-        $proto  = 'simple';
-        $getter = 'get' . ucfirst($field);
-        $class  = 'ProtobufTest.Protos.Simple';
+        $escaped = $value;
+        $proto   = 'simple';
+        $getter  = 'get' . ucfirst($field);
+        $class   = 'ProtobufTest.Protos.Simple';
 
-        $cmdValue = is_string($value) ? '"'.$value.'"' : $value;
-        $binary   = $this->executeProtoc("$field: $cmdValue", $class, $proto);
+        if (is_string($value)) {
+            $escaped  = '"' . $value . '"';
+        }
+
+        if ($value instanceof \Protobuf\Stream) {
+            $tell    = $value->tell();
+            $escaped = '"' . $value . '"';
+
+            $value->seek($tell);
+        }
+
+        $binary   = $this->executeProtoc("$field: $escaped", $class, $proto);
         $message  = Simple::fromStream(Stream::create($binary));
         $result   = $message->$getter();
 
@@ -147,6 +169,10 @@ class ProtocSerializeTest extends TestCase
         if (is_float($value)) {
             $precision = strlen($value) - strpos($value, '.');
             $result    = round($result, $precision);
+        }
+
+        if ($result instanceof \Protobuf\Stream) {
+            $result = (string) $result;
         }
 
         $this->assertEquals($value, $result, "Decoding $field with value $value");
