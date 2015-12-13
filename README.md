@@ -288,29 +288,10 @@ Here is a program which reads an ```AddressBook``` from a file, adds one new ```
 #!/usr/bin/env php
 <?php
 
-$loader = require_once __DIR__ . '/../vendor/autoload.php';
-
-$loader->add('Tutorial\AddressBookProtos', __DIR__ . '/src');
-
 use Tutorial\AddressBookProtos\Person;
 use Tutorial\AddressBookProtos\AddressBook;
 
-if ( ! class_exists('\Tutorial\AddressBookProtos\Person')) {
-
-    fwrite(STDERR,
-        'You need generate the php classes using the following commands:' . PHP_EOL .
-        './vendor/bin/protobuf --include-descriptors -i ./examples/ -o ./examples/src/ ./examples/addressbook.proto' . PHP_EOL
-    );
-
-    exit(1);
-}
-
-if ( ! isset($argv[1])) {
-    echo "Usage: ./examples/addressbook-add-person.php ADDRESS_BOOK_FILE" . PHP_EOL;
-    exit(1);
-}
-
-// Read the existing address book or create a one.
+// Read the existing address book or create a new one.
 $addressBook = is_file($argv[1])
     ? AddressBook::fromStream(file_get_contents($argv[1]))
     : new AddressBook();
