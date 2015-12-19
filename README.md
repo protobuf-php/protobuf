@@ -192,6 +192,27 @@ This transformation is done automatically by the protocol buffer compiler so tha
 You should always use lowercase-with-underscores for field names in your ```.proto``` files; this ensures good naming practice in all the generated languages. See the style guide for more on good ```.proto``` style.
 
 
+Protocol Buffers types map to the following PHP types:
+
+| Protocol Buffers | PHP                |
+| ---------------- | ------------------ |
+| double           | float              |
+| float            | float              |
+| int32            | int                |
+| int64            | int                |
+| uint32           | int                |
+| uint64           | int                |
+| sint32           | int                |
+| sint64           | int                |
+| fixed32          | int                |
+| fixed64          | int                |
+| sfixed32         | int                |
+| sfixed64         | int                |
+| bool             | bool               |
+| string           | string             |
+| bytes            | \\Protobuf\\Stream |
+
+
 #### Enums and Nested Classes
 
 The generated code includes a ```PhoneType``` [enum](https://github.com/protobuf-php/protobuf/blob/master/src/Enum.php):
