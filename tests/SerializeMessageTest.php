@@ -17,7 +17,7 @@ use ProtobufTest\Protos\Person\PhoneType;
 use ProtobufTest\Protos\Person\PhoneNumber;
 use ProtobufTest\Protos\Options\ParentMessage;
 
-class SerializeTest extends TestCase
+class SerializeMessageTest extends TestCase
 {
     public function testWriteSimpleMessage()
     {

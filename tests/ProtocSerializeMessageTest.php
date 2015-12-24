@@ -12,7 +12,7 @@ use ProtobufTest\Protos\Complex;
 /**
  * @group protoc
  */
-class ProtocSerializeTest extends TestCase
+class ProtocSerializeMessageTest extends TestCase
 {
     public function simpleMessageProvider()
     {
