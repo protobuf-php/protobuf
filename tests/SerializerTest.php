@@ -44,6 +44,18 @@ class SerializerTest extends TestCase
         $this->assertSame($stream, MessageSerializerTest::$calls[0][0]);
         $this->assertSame($config, MessageSerializerTest::$calls[0][1]);
     }
+
+    public function testGetConfiguration()
+    {
+        $config1 = new Configuration();
+        $config2 = Configuration::getInstance();
+
+        $serializer1 = new Serializer($config1);
+        $serializer2 = new Serializer();
+
+        $this->assertSame($config1, $serializer1->getConfiguration());
+        $this->assertSame($config2, $serializer2->getConfiguration());
+    }
 }
 
 class MessageSerializerTest extends \Protobuf\AbstractMessage
