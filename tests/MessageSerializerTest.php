@@ -4,19 +4,18 @@ namespace ProtobufTest;
 
 use ProtobufTest\Protos\Simple;
 
+use Protobuf\MessageSerializer;
 use Protobuf\Configuration;
-use Protobuf\Serializer;
 use Protobuf\Message;
 use Protobuf\Stream;
 
-
-class SerializerTest extends TestCase
+class MessageSerializerTest extends TestCase
 {
     public function testSerializeMessage()
     {
         $message    = $this->getMock(Message::CLASS);
         $config     = new Configuration();
-        $serializer = new Serializer($config);
+        $serializer = new MessageSerializer($config);
         $stream     = Stream::create();
 
         $message->expects($this->once())
@@ -24,25 +23,26 @@ class SerializerTest extends TestCase
             ->willReturn($stream)
             ->with($this->equalTo($config));
 
+        $this->assertInstanceOf('Protobuf\MessageSerializer', $serializer);
         $this->assertSame($stream, $serializer->serialize($message));
     }
 
     public function testUnserializeMessage()
     {
+        $class      = FooStub_MessageSerializerTest::CLASS;
         $message    = $this->getMock(Message::CLASS);
-        $class      = MessageSerializerTest::CLASS;
         $config     = new Configuration();
-        $serializer = new Serializer($config);
+        $serializer = new MessageSerializer($config);
         $stream     = Stream::create();
 
-        MessageSerializerTest::$calls   = [];
-        MessageSerializerTest::$returns = [$message];
+        FooStub_MessageSerializerTest::$calls   = [];
+        FooStub_MessageSerializerTest::$returns = [$message];
 
         $this->assertSame($message, $serializer->unserialize($class, $stream));
 
-        $this->assertCount(1, MessageSerializerTest::$calls);
-        $this->assertSame($stream, MessageSerializerTest::$calls[0][0]);
-        $this->assertSame($config, MessageSerializerTest::$calls[0][1]);
+        $this->assertCount(1, FooStub_MessageSerializerTest::$calls);
+        $this->assertSame($stream, FooStub_MessageSerializerTest::$calls[0][0]);
+        $this->assertSame($config, FooStub_MessageSerializerTest::$calls[0][1]);
     }
 
     public function testGetConfiguration()
@@ -50,15 +50,15 @@ class SerializerTest extends TestCase
         $config1 = new Configuration();
         $config2 = Configuration::getInstance();
 
-        $serializer1 = new Serializer($config1);
-        $serializer2 = new Serializer();
+        $serializer1 = new MessageSerializer($config1);
+        $serializer2 = new MessageSerializer();
 
         $this->assertSame($config1, $serializer1->getConfiguration());
         $this->assertSame($config2, $serializer2->getConfiguration());
     }
 }
 
-class MessageSerializerTest extends \Protobuf\AbstractMessage
+class FooStub_MessageSerializerTest extends \Protobuf\AbstractMessage
 {
     public static $calls = [];
     public static $returns = [];

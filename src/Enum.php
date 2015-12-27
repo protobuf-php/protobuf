@@ -30,8 +30,6 @@ abstract class Enum
     /**
      * @param string  $name
      * @param integer $value
-     *
-     * @throws \UnexpectedValueException if incompatible type is given.
      */
     public function __construct($name, $value)
     {

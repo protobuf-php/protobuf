@@ -3,7 +3,6 @@
 namespace Protobuf;
 
 use Protobuf\TextFormat;
-use Protobuf\Configuration;
 
 /**
  * Abstract message class
@@ -17,9 +16,9 @@ abstract class AbstractMessage implements Message
      */
     public function __toString()
     {
-        $format = new TextFormat(Configuration::getInstance());
+        $format = new TextFormat();
         $stream = $format->encodeMessage($this);
 
-        return (string) $stream;
+        return $stream->__toString();
     }
 }
