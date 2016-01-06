@@ -71,4 +71,9 @@ interface Message
      * @return \Protobuf\Extension\ExtensionFieldMap
      */
     public function extensions();
+
+    /**
+     * Reset all fields back to the initial values.
+     */
+    public function clear();
 }

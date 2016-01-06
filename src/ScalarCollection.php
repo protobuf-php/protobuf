@@ -13,6 +13,14 @@ use ArrayObject;
 class ScalarCollection extends ArrayObject implements Collection
 {
     /**
+     * @param array<scalar> $values
+     */
+    public function __construct(array $values = [])
+    {
+        array_walk($values, [$this, 'add']);
+    }
+
+    /**
      * Adds a value to this collection
      *
      * @param scalar $value
@@ -27,7 +35,7 @@ class ScalarCollection extends ArrayObject implements Collection
             ));
         }
 
-        $this[] = $value;
+        parent::offsetSet(null, $value);
     }
 
     /**

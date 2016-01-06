@@ -95,7 +95,7 @@ class StreamTest extends TestCase
 
     public function testReadStream()
     {
-        $source = Stream::create('FOObar');
+        $source = Stream::wrap('FOObar');
         $read1  = $source->readStream(3);
         $read2  = $source->readStream(3);
 
@@ -115,14 +115,14 @@ class StreamTest extends TestCase
 
         fseek($handle, 10);
 
-        $stream = Stream::create($handle);
+        $stream = Stream::wrap($handle);
 
         $this->assertEquals(10, $stream->tell());
     }
 
     public function testCreateStreamFromString()
     {
-        $stream = Stream::create('foo');
+        $stream = Stream::wrap('foo');
 
         $this->assertInstanceOf('Protobuf\Stream', $stream);
         $this->assertEquals('foo', $stream->getContents());
@@ -130,13 +130,13 @@ class StreamTest extends TestCase
 
     public function testCreateStreamFromEmptyString()
     {
-        $this->assertInstanceOf('Protobuf\Stream', Stream::create());
+        $this->assertInstanceOf('Protobuf\Stream', Stream::wrap());
     }
 
     public function testCreateStreamFromResource()
     {
         $handle  = fopen(__FILE__, 'r');
-        $stream  = Stream::create($handle);
+        $stream  = Stream::wrap($handle);
         $content = file_get_contents(__FILE__);
 
         $this->assertInstanceOf('Protobuf\Stream', $stream);
@@ -184,7 +184,7 @@ class StreamTest extends TestCase
      */
     public function testThrowsExceptionForUnknown()
     {
-        Stream::create(new \stdClass());
+        Stream::wrap(new \stdClass());
     }
 
     /**
@@ -197,6 +197,6 @@ class StreamTest extends TestCase
 
     public function testCanSetSize()
     {
-        $this->assertEquals(10, Stream::create('', 10)->getSize());
+        $this->assertEquals(10, Stream::wrap('', 10)->getSize());
     }
 }

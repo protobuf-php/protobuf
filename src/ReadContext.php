@@ -41,7 +41,7 @@ class ReadContext
     public function __construct($stream, StreamReader $reader, ExtensionRegistry $extensionRegistry = null)
     {
         if ( ! $stream instanceof \Protobuf\Stream) {
-            $stream = Stream::create($stream);
+            $stream = Stream::wrap($stream);
         }
 
         $this->stream            = $stream;

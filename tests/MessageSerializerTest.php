@@ -23,22 +23,20 @@ class MessageSerializerTest extends TestCase
             ->willReturn($stream)
             ->with($this->equalTo($config));
 
-        $this->assertInstanceOf('Protobuf\MessageSerializer', $serializer);
+        $this->assertInstanceOf('Protobuf\Serializer', $serializer);
         $this->assertSame($stream, $serializer->serialize($message));
     }
 
     public function testUnserializeMessage()
     {
         $class      = FooStub_MessageSerializerTest::CLASS;
-        $message    = $this->getMock(Message::CLASS);
         $config     = new Configuration();
         $serializer = new MessageSerializer($config);
         $stream     = Stream::create();
 
-        FooStub_MessageSerializerTest::$calls   = [];
-        FooStub_MessageSerializerTest::$returns = [$message];
+        FooStub_MessageSerializerTest::$calls = [];
 
-        $this->assertSame($message, $serializer->unserialize($class, $stream));
+        $this->assertInstanceOf($class, $serializer->unserialize($class, $stream));
 
         $this->assertCount(1, FooStub_MessageSerializerTest::$calls);
         $this->assertSame($stream, FooStub_MessageSerializerTest::$calls[0][0]);
@@ -61,13 +59,18 @@ class MessageSerializerTest extends TestCase
 class FooStub_MessageSerializerTest extends \Protobuf\AbstractMessage
 {
     public static $calls = [];
-    public static $returns = [];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct($stream = null, \Protobuf\Configuration $configuration = null)
+    {
+        self::$calls[] = func_get_args();
+    }
 
     public static function fromStream($stream, \Protobuf\Configuration $configuration = null)
     {
-        self::$calls[] = func_get_args();
-
-        return array_pop(self::$returns);
+        throw new \BadMethodCallException(__METHOD__);
     }
 
     public function extensions()
@@ -96,6 +99,11 @@ class FooStub_MessageSerializerTest extends \Protobuf\AbstractMessage
     }
 
     public function serializedSize(\Protobuf\ComputeSizeContext $context)
+    {
+        throw new \BadMethodCallException(__METHOD__);
+    }
+
+    public function clear()
     {
         throw new \BadMethodCallException(__METHOD__);
     }

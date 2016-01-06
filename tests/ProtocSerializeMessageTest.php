@@ -74,8 +74,8 @@ class ProtocSerializeMessageTest extends TestCase
             ['string', ''],
             ['string', 'foo'],
 
-            ['bytes', Stream::create('')],
-            ['bytes', Stream::create('foo')],
+            ['bytes', Stream::wrap('')],
+            ['bytes', Stream::wrap('foo')],
 
             ['uint32', 0],
             ['uint32', 1],
@@ -162,7 +162,7 @@ class ProtocSerializeMessageTest extends TestCase
         }
 
         $binary   = $this->executeProtoc("$field: $escaped", $class, $proto);
-        $message  = Simple::fromStream(Stream::create($binary));
+        $message  = Simple::fromStream(Stream::wrap($binary));
         $result   = $message->$getter();
 
         // Hack the comparison for float precision
@@ -189,7 +189,7 @@ class ProtocSerializeMessageTest extends TestCase
 
         $encoded  = $complex->toStream();
         $expected = $this->executeProtoc("enum: FOO", $class, $proto);
-        $decoded  = Complex::fromStream(Stream::create($expected));
+        $decoded  = Complex::fromStream(Stream::wrap($expected));
 
         $this->assertInstanceOf(Complex::CLASS, $decoded);
         $this->assertEquals(bin2hex($expected), bin2hex($encoded));
@@ -209,7 +209,7 @@ class ProtocSerializeMessageTest extends TestCase
 
         $encoded  = $complex->toStream();
         $expected = $this->executeProtoc($input, $class, $proto);
-        $decoded  = Complex::fromStream(Stream::create($expected));
+        $decoded  = Complex::fromStream(Stream::wrap($expected));
 
         $this->assertInstanceOf(Complex::CLASS, $decoded);
         $this->assertInstanceOf(Complex\Nested::CLASS, $complex->getNested());

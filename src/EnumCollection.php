@@ -6,14 +6,14 @@ use InvalidArgumentException;
 use ArrayObject;
 
 /**
- * Message collection
+ * Protobuf enum collection
  *
  * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  */
-class MessageCollection extends ArrayObject implements Collection
+class EnumCollection extends ArrayObject implements Collection
 {
     /**
-     * @param array<\Protobuf\Message> $values
+     * @param array<\Protobuf\Enum> $values
      */
     public function __construct(array $values = [])
     {
@@ -21,13 +21,13 @@ class MessageCollection extends ArrayObject implements Collection
     }
 
     /**
-     * Adds a message to this collection
+     * Adds a \Protobuf\Enum to this collection
      *
-     * @param \Protobuf\Message $message
+     * @param \Protobuf\Enum $enum
      */
-    public function add(Message $message)
+    public function add(Enum $enum)
     {
-        parent::offsetSet(null, $message);
+        parent::offsetSet(null, $enum);
     }
 
     /**
@@ -35,9 +35,9 @@ class MessageCollection extends ArrayObject implements Collection
      */
     public function offsetSet($offset, $value)
     {
-        if ( ! $value instanceof Message) {
+        if ( ! $value instanceof Enum) {
             throw new InvalidArgumentException(sprintf(
-                'Argument 2 passed to %s must implement interface \Protobuf\Message, %s given',
+                'Argument 2 passed to %s must be a \Protobuf\Enum, %s given',
                 __METHOD__,
                 is_object($value) ? get_class($value) : gettype($value)
             ));

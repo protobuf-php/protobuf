@@ -38,6 +38,7 @@ proto-generate: proto-clean
 	php $(BASEDIR)/vendor/bin/protobuf --include-descriptors \
 		--psr4 ProtobufTest\\Protos \
 		-o $(BASEDIR)/tests/Protos \
+		-i $(BASEDIR)/tests/Resources \
 		$(BASEDIR)/tests/Resources/*.proto
 
 phpunit: proto-generate

@@ -6,14 +6,14 @@ use InvalidArgumentException;
 use ArrayObject;
 
 /**
- * Message collection
+ * Protobuf Stream collection
  *
  * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  */
-class MessageCollection extends ArrayObject implements Collection
+class StreamCollection extends ArrayObject implements Collection
 {
     /**
-     * @param array<\Protobuf\Message> $values
+     * @param array<\Protobuf\Stream> $values
      */
     public function __construct(array $values = [])
     {
@@ -21,13 +21,13 @@ class MessageCollection extends ArrayObject implements Collection
     }
 
     /**
-     * Adds a message to this collection
+     * Adds a \Protobuf\Stream to this collection
      *
-     * @param \Protobuf\Message $message
+     * @param \Protobuf\Stream $stream
      */
-    public function add(Message $message)
+    public function add(Stream $stream)
     {
-        parent::offsetSet(null, $message);
+        parent::offsetSet(null, $stream);
     }
 
     /**
@@ -35,9 +35,9 @@ class MessageCollection extends ArrayObject implements Collection
      */
     public function offsetSet($offset, $value)
     {
-        if ( ! $value instanceof Message) {
+        if ( ! $value instanceof Stream) {
             throw new InvalidArgumentException(sprintf(
-                'Argument 2 passed to %s must implement interface \Protobuf\Message, %s given',
+                'Argument 2 passed to %s must be a \Protobuf\Stream, %s given',
                 __METHOD__,
                 is_object($value) ? get_class($value) : gettype($value)
             ));

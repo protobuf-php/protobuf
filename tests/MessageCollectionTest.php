@@ -17,6 +17,17 @@ class MessageCollectionTest extends TestCase
         $this->collection = new MessageCollection();
     }
 
+    public function testCreateMessageCollection()
+    {
+        $messge1 = $this->getMock(Message::CLASS);
+        $messge2 = $this->getMock(Message::CLASS);
+
+        $collection = new MessageCollection([$messge1, $messge2]);
+
+        $this->assertCount(2, $collection);
+        $this->assertEquals([$messge1, $messge2], $collection->getArrayCopy());
+    }
+
     public function testAddMessage()
     {
         $this->assertCount(0, $this->collection);

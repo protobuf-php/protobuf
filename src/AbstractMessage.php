@@ -12,6 +12,24 @@ use Protobuf\TextFormat;
 abstract class AbstractMessage implements Message
 {
     /**
+     * Message constructor
+     *
+     * @param \Protobuf\Stream|resource|string $stream
+     * @param \Protobuf\Configuration          $configuration
+     */
+    public function __construct($stream = null, \Protobuf\Configuration $configuration = null)
+    {
+        if ($stream === null) {
+            return;
+        }
+
+        $config  = $configuration ?: \Protobuf\Configuration::getInstance();
+        $context = $config->createReadContext($stream);
+
+        $this->readFrom($context);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __toString()

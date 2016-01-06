@@ -43,7 +43,7 @@ class StreamWriterTest extends TestCase
         $writer->writeString($stream, 'foo');
 
         $writer->writeVarint($stream, WireFormat::getFieldKey(12, WireFormat::WIRE_LENGTH));
-        $writer->writeByteStream($stream, Stream::create('bar'));
+        $writer->writeByteStream($stream, Stream::wrap('bar'));
 
         $writer->writeVarint($stream, WireFormat::getFieldKey(13, WireFormat::WIRE_VARINT));
         $writer->writeVarint($stream, 123456789);

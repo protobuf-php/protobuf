@@ -21,7 +21,7 @@ class StreamReaderTest extends TestCase
 
     public function testReadSimpleMessage()
     {
-        $stream = Stream::create($this->getProtoContent('simple.bin'));
+        $stream = Stream::wrap($this->getProtoContent('simple.bin'));
         $reader = new StreamReader($this->config);
 
         $this->assertNextTagWire($reader, $stream, 1, WireFormat::WIRE_FIXED64);

@@ -24,6 +24,7 @@ class SerializeMessageTest extends TestCase
         $simple = new Simple();
 
         $simple->setBool(true);
+        $simple->setBytes("bar");
         $simple->setString("foo");
         $simple->setFloat(12345.123);
         $simple->setUint32(123456789);
@@ -36,7 +37,6 @@ class SerializeMessageTest extends TestCase
         $simple->setUint64(123456789123456789);
         $simple->setFixed64(123456789123456789);
         $simple->setSint64(-123456789123456789);
-        $simple->setBytes(Stream::create("bar"));
         $simple->setSfixed64(-123456789123456789);
 
         $expected = $this->getProtoContent('simple.bin');
@@ -413,7 +413,7 @@ class SerializeMessageTest extends TestCase
     public function testUnknownFieldSet()
     {
         $binary       = $this->getProtoContent('unknown.bin');
-        $unrecognized = Unrecognized::fromStream(Stream::create($binary));
+        $unrecognized = Unrecognized::fromStream(Stream::wrap($binary));
 
         $this->assertInstanceOf(Unrecognized::CLASS, $unrecognized);
         $this->assertInstanceOf('Protobuf\UnknownFieldSet', $unrecognized->unknownFieldSet());

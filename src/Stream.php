@@ -244,16 +244,16 @@ class Stream
     }
 
     /**
-     * Create a new stream based on the input type.
+     * Wrap the input resource in a stream object.
      *
-     * @param string  $resource
-     * @param integer $size
+     * @param \Protobuf\Stream|resource|string $resource
+     * @param integer                          $size
      *
      * @return \Protobuf\Stream
      *
      * @throws \InvalidArgumentException if the $resource arg is not valid.
      */
-    public static function create($resource = '', $size = null)
+    public static function wrap($resource = '', $size = null)
     {
         if ($resource instanceof Stream) {
             return $resource;
@@ -270,6 +270,16 @@ class Stream
         }
 
         throw new InvalidArgumentException('Invalid resource type: ' . $type);
+    }
+
+    /**
+     * Create a new stream.
+     *
+     * @return \Protobuf\Stream
+     */
+    public static function create()
+    {
+        return new self(fopen('php://temp', 'r+'));
     }
 
     /**

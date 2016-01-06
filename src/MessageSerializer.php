@@ -52,6 +52,6 @@ class MessageSerializer implements Serializer
      */
     public function unserialize($class, $stream)
     {
-        return call_user_func($class . '::fromStream', $stream, $this->config);
+        return new $class($stream, $this->config);
     }
 }
