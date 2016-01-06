@@ -314,7 +314,7 @@ use Tutorial\AddressBookProtos\AddressBook;
 
 // Read the existing address book or create a new one.
 $addressBook = is_file($argv[1])
-    ? AddressBook::fromStream(file_get_contents($argv[1]))
+    ? new AddressBook(file_get_contents($argv[1]))
     : new AddressBook();
 
 $person = new Person();
