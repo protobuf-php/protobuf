@@ -8,8 +8,15 @@ message Repeated {
     optional int32 id = 1;
   }
 
+  enum Enum {
+    FOO = 0;
+    BAR = 1;
+  }
+
   repeated string string  = 1;
   repeated int32 int      = 2;
   repeated Nested nested  = 3;
   repeated int32 packed   = 4 [packed=true];
+  repeated bytes bytes    = 5;
+  repeated Enum enum      = 6;
 }

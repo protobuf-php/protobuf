@@ -113,6 +113,35 @@ class SerializeMessageTest extends TestCase
         $this->assertSerializedMessageSize($expected, $repeated);
     }
 
+    public function testWriteRepeatedBytes()
+    {
+        $repeated = new Repeated();
+
+        $repeated->addBytes('bin1');
+        $repeated->addBytes('bin2');
+        $repeated->addBytes('bin3');
+
+        $expected = $this->getProtoContent('repeated-bytes.bin');
+        $actual   = $repeated->toStream();
+
+        $this->assertEquals($expected, (string) $actual);
+        $this->assertSerializedMessageSize($expected, $repeated);
+    }
+
+    public function testWriteRepeatedEnum()
+    {
+        $repeated = new Repeated();
+
+        $repeated->addEnum(Repeated\Enum::FOO());
+        $repeated->addEnum(Repeated\Enum::BAR());
+
+        $expected = $this->getProtoContent('repeated-enum.bin');
+        $actual   = $repeated->toStream();
+
+        $this->assertEquals($expected, (string) $actual);
+        $this->assertSerializedMessageSize($expected, $repeated);
+    }
+
     public function testWriteComplexMessage()
     {
         $phone1  = new PhoneNumber();
@@ -292,6 +321,40 @@ class SerializeMessageTest extends TestCase
         $this->assertInstanceOf(Repeated::CLASS, $repeated);
         $this->assertInstanceOf(Collection::CLASS, $repeated->getPackedList());
         $this->assertEquals([1, 2, 3], $repeated->getPackedList()->getArrayCopy());
+    }
+
+    public function testReadRepeatedBytes()
+    {
+        $binary   = $this->getProtoContent('repeated-bytes.bin');
+        $repeated = Repeated::fromStream($binary);
+
+        $this->assertInstanceOf(Repeated::CLASS, $repeated);
+        $this->assertInstanceOf(Collection::CLASS, $repeated->getBytesList());
+        $this->assertCount(3, $repeated->getBytesList());
+
+        $this->assertInstanceOf('Protobuf\Stream', $repeated->getBytesList()[0]);
+        $this->assertInstanceOf('Protobuf\Stream', $repeated->getBytesList()[1]);
+        $this->assertInstanceOf('Protobuf\Stream', $repeated->getBytesList()[2]);
+
+        $this->assertEquals('bin1', $repeated->getBytesList()[0]);
+        $this->assertEquals('bin2', $repeated->getBytesList()[1]);
+        $this->assertEquals('bin3', $repeated->getBytesList()[2]);
+    }
+
+    public function testReadRepeatedEnum()
+    {
+        $binary   = $this->getProtoContent('repeated-enum.bin');
+        $repeated = Repeated::fromStream($binary);
+
+        $this->assertInstanceOf(Repeated::CLASS, $repeated);
+        $this->assertInstanceOf(Collection::CLASS, $repeated->getEnumList());
+        $this->assertCount(2, $repeated->getEnumList());
+
+        $this->assertInstanceOf('Protobuf\Enum', $repeated->getEnumList()[0]);
+        $this->assertInstanceOf('Protobuf\Enum', $repeated->getEnumList()[1]);
+
+        $this->assertSame(Repeated\Enum::FOO(), $repeated->getEnumList()[0]);
+        $this->assertSame(Repeated\Enum::BAR(), $repeated->getEnumList()[1]);
     }
 
     public function testReadComplexMessage()
