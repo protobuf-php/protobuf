@@ -33,9 +33,6 @@
         "instaclick/object-calisthenics-sniffs" : "dev-master",
         "instaclick/symfony2-coding-standard"   : "dev-remaster"
     },
-    "suggest": {
-        "doctrine/annotations": "Allows reading of proto classes metadata"
-    },
     "autoload"   : {
         "psr-4": {
             "Protobuf\\": "src/"
