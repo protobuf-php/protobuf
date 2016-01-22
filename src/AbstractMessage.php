@@ -39,4 +39,12 @@ abstract class AbstractMessage implements Message
 
         return $stream->__toString();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function __set_state(array $values)
+    {
+        return static::fromArray($values);
+    }
 }

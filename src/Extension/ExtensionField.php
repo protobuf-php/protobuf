@@ -36,6 +36,11 @@ class ExtensionField
     /**
      * @var string
      */
+    private $method;
+
+    /**
+     * @var string
+     */
     private $name;
 
     /**
@@ -50,13 +55,15 @@ class ExtensionField
      * @param callback $reader
      * @param callback $writer
      * @param callback $sizeCalculator
+     * @param string   $method
      */
-    public function __construct($extendee, $name, $tag, $reader, $writer, $sizeCalculator)
+    public function __construct($extendee, $name, $tag, $reader, $writer, $sizeCalculator, $method = null)
     {
         $this->tag            = $tag;
         $this->name           = $name;
         $this->reader         = $reader;
         $this->writer         = $writer;
+        $this->method         = $method;
         $this->extendee       = $extendee;
         $this->sizeCalculator = $sizeCalculator;
     }
@@ -67,6 +74,14 @@ class ExtensionField
     public function getExtendee()
     {
         return $this->extendee;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->method;
     }
 
     /**
