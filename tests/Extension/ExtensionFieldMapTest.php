@@ -14,8 +14,9 @@ class ExtensionFieldMapTest extends TestCase
     public function testPutAndGetExtensions()
     {
         $animal     = new Cat();
+        $callback   = function () {};
         $extensions = new ExtensionFieldMap(Animal::CLASS);
-        $extension  = new ExtensionField(Animal::CLASS, 'animal', 100, function () {}, function () {}, function () {});
+        $extension  = new ExtensionField(Animal::CLASS, 'animal', 100, $callback, $callback, $callback);
 
         $this->assertCount(0, $extensions);
 
@@ -24,6 +25,26 @@ class ExtensionFieldMapTest extends TestCase
         $this->assertCount(1, $extensions);
         $this->assertTrue($extensions->contains($extension));
         $this->assertSame($animal, $extensions->offsetGet($extension));
+    }
+
+    public function testAddMergeExtensions()
+    {
+        $animal1    = new Cat();
+        $animal2    = new Cat();
+        $callback   = function () {};
+        $extensions = new ExtensionFieldMap(Animal::CLASS);
+        $extension  = new ExtensionField(Animal::CLASS, 'animal', 100, $callback, $callback, $callback);
+
+        $animal1->setDeclawed(true);
+
+        $extensions->add($extension, $animal1);
+        $this->assertSame($animal1, $extensions->offsetGet($extension));
+
+        $animal2->setDeclawed(false);
+
+        $extensions->add($extension, $animal2);
+        $this->assertTrue($animal2->getDeclawed());
+        $this->assertSame($animal2, $extensions->offsetGet($extension));
     }
 
     /**

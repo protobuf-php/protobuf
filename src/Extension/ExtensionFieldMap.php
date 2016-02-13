@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use OutOfBoundsException;
 use SplObjectStorage;
 
+use Protobuf\Message;
 use Protobuf\Collection;
 use Protobuf\WriteContext;
 use Protobuf\ComputeSizeContext;
@@ -28,6 +29,30 @@ class ExtensionFieldMap extends SplObjectStorage implements Collection
     public function __construct($extendee = null)
     {
         $this->extendee = trim($extendee, '\\');
+    }
+
+    /**
+     * @param \Protobuf\Extension\ExtensionField $extension
+     * @param mixed                              $value
+     */
+    public function add(ExtensionField $extension, $value)
+    {
+        if ( ! $value instanceof Message) {
+            $this->put($extension, $value);
+
+            return;
+        }
+
+        $className = get_class($value);
+        $existing  = isset($this[$extension])
+            ? $this[$extension]
+            : null;
+
+        if ($existing instanceof $className) {
+            $value->merge($existing);
+        }
+
+        $this->put($extension, $value);
     }
 
     /**

@@ -103,6 +103,11 @@ class FooStub_MessageSerializerTest extends \Protobuf\AbstractMessage
         throw new \BadMethodCallException(__METHOD__);
     }
 
+    public function merge(\Protobuf\Message $message)
+    {
+        throw new \BadMethodCallException(__METHOD__);
+    }
+
     public function clear()
     {
         throw new \BadMethodCallException(__METHOD__);

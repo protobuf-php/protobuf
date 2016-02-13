@@ -59,6 +59,13 @@ interface Message
     public function writeTo(WriteContext $context);
 
     /**
+     * Merge $context into the message being built.
+     *
+     * @param \Protobuf\Message $message
+     */
+    public function merge(Message $message);
+
+    /**
      * Obtain the list of unknown fields in this message.
      *
      * @return \Protobuf\UnknownFieldSet
