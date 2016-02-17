@@ -24,7 +24,7 @@
         "php"          : ">=5.5.0"
     },
     "require-dev": {
-        "protobuf-php/protobuf-plugin"          : "~1.0@dev",
+        "protobuf-php/protobuf-plugin"          : "~0.1@dev",
         "phpunit/phpunit"                       : "~4",
         "instaclick/coding-standard"            : "~1.1",
         "squizlabs/php_codesniffer"             : "~1.5",
@@ -45,7 +45,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "0.1.x-dev"
         }
     }
 }
