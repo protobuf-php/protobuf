@@ -271,8 +271,38 @@ class SerializeMessageTest extends TestCase
         $simple = Simple::fromStream($binary);
 
         $this->assertInstanceOf(Simple::CLASS, $simple);
-        $this->assertEquals('foo', $simple->getString());
+        $this->assertInstanceOf(Stream::CLASS, $simple->getBytes());
+
+        $this->assertInternalType('bool', $simple->getBool());
+        $this->assertInternalType('string', $simple->getString());
+        $this->assertInternalType('float', $simple->getFloat(), '', 0.0001);
+        $this->assertInternalType('integer', $simple->getUint32());
+        $this->assertInternalType('integer', $simple->getInt32());
+        $this->assertInternalType('integer', $simple->getFixed32());
+        $this->assertInternalType('integer', $simple->getSint32());
+        $this->assertInternalType('integer', $simple->getSfixed32());
+        $this->assertInternalType('float', $simple->getDouble());
+        $this->assertInternalType('integer', $simple->getInt64());
+        $this->assertInternalType('integer', $simple->getUint64());
+        $this->assertInternalType('integer', $simple->getFixed64());
+        $this->assertInternalType('integer', $simple->getSint64());
+        $this->assertInternalType('integer', $simple->getSfixed64());
+
+        $this->assertEquals(true, $simple->getBool());
+        $this->assertEquals("bar", $simple->getBytes());
+        $this->assertEquals("foo", $simple->getString());
+        $this->assertEquals(12345.123, $simple->getFloat(), '', 0.0001);
+        $this->assertEquals(123456789, $simple->getUint32());
         $this->assertEquals(-123456789, $simple->getInt32());
+        $this->assertEquals(123456789, $simple->getFixed32());
+        $this->assertEquals(-123456789, $simple->getSint32());
+        $this->assertEquals(-123456789, $simple->getSfixed32());
+        $this->assertEquals(123456789.12345, $simple->getDouble());
+        $this->assertEquals(-123456789123456789, $simple->getInt64());
+        $this->assertEquals(123456789123456789, $simple->getUint64());
+        $this->assertEquals(123456789123456789, $simple->getFixed64());
+        $this->assertEquals(-123456789123456789, $simple->getSint64());
+        $this->assertEquals(-123456789123456789, $simple->getSfixed64());
     }
 
     public function testReadRepeatedString()
