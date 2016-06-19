@@ -3,19 +3,20 @@ sudo: false
 language: php
 
 cache:
-  directories:
-    - $HOME/.composer/cache
-    - $HOME/protobuf
+    directories:
+        - $HOME/.composer/cache
+        - $HOME/protobuf
 
 php:
     - 5.5
     - 5.6
     - 7.0
     - hhvm
+    - nightly
 
 env:
     - PROTOBUF_VERSION=2.6.1
-    - PROTOBUF_VERSION=3.0.0-beta-1
+    - PROTOBUF_VERSION=3.0.0-beta-3
 
 before_install:
     - bash ./tests/travis/install-protobuf.sh
@@ -30,3 +31,7 @@ script:
 
 after_script:
     - ./vendor/bin/coveralls -v
+
+matrix:
+    allow_failures:
+        - php: nightly
