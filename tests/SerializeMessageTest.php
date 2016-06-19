@@ -19,6 +19,16 @@ use ProtobufTest\Protos\Options\ParentMessage;
 
 class SerializeMessageTest extends TestCase
 {
+
+    private function assertSerializedMessageSize($expectedContent, $message)
+    {
+        $context      = $this->config->createComputeSizeContext();
+        $expectedSize = mb_strlen($expectedContent, '8bit');
+        $actualSize   = $message->serializedSize($context);
+
+        $this->assertEquals($expectedSize, $actualSize);
+    }
+
     public function testWriteSimpleMessage()
     {
         $simple = new Simple();
@@ -545,14 +555,5 @@ class SerializeMessageTest extends TestCase
         $this->assertEquals(-123456789123456789, $values[16]->value);
         $this->assertEquals(246913577, $values[17]->value);
         $this->assertEquals(246913578246913577, $values[18]->value);
-    }
-
-    public function assertSerializedMessageSize($expectedContent, $message)
-    {
-        $context      = $this->config->createComputeSizeContext();
-        $expectedSize = mb_strlen($expectedContent, '8bit');
-        $actualSize   = $message->serializedSize($context);
-
-        $this->assertEquals($expectedSize, $actualSize);
     }
 }

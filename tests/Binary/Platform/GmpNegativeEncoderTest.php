@@ -12,7 +12,7 @@ class GmpNegativeEncoderTest extends TestCase
     {
         parent::setUp();
 
-        if ( ! extension_loaded('gmp') || ! class_exists('GMP')) {
+        if ( ! extension_loaded('gmp') || ! function_exists('gmp_intval')) {
             $this->markTestSkipped('The GMP extension is not available.');
         }
     }
@@ -27,11 +27,17 @@ class GmpNegativeEncoderTest extends TestCase
         $gmp_x100 = $this->getPropertyValue($encoder, 'gmp_x100');
         $is32Bit  = $this->getPropertyValue($encoder, 'is32Bit');
 
-        $this->assertInstanceOf('GMP', $gmp_x00);
-        $this->assertInstanceOf('GMP', $gmp_x7f);
-        $this->assertInstanceOf('GMP', $gmp_x80);
-        $this->assertInstanceOf('GMP', $gmp_xff);
-        $this->assertInstanceOf('GMP', $gmp_x100);
+        $this->assertNotNull($gmp_x00);
+        $this->assertNotNull($gmp_x7f);
+        $this->assertNotNull($gmp_x80);
+        $this->assertNotNull($gmp_xff);
+        $this->assertNotNull($gmp_x100);
+
+        $this->assertEquals(0, gmp_intval($gmp_x00));
+        $this->assertEquals(127, gmp_intval($gmp_x7f));
+        $this->assertEquals(128, gmp_intval($gmp_x80));
+        $this->assertEquals(255, gmp_intval($gmp_xff));
+        $this->assertEquals(256, gmp_intval($gmp_x100));
         $this->assertEquals(BigEndian::is32Bit(), $is32Bit);
     }
 
