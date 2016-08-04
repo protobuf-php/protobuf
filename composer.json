@@ -23,11 +23,11 @@
         "php"          : ">=5.5.0"
     },
     "require-dev": {
-        "protobuf-php/protobuf-plugin"          : "~0.1",
-        "phpunit/phpunit"                       : "~4",
-        "instaclick/coding-standard"            : "~1.1",
-        "squizlabs/php_codesniffer"             : "~1.5",
-        "satooshi/php-coveralls"                : "~0.6",
+        "protobuf-php/protobuf-plugin"          : "^0.1",
+        "phpunit/phpunit"                       : "^4",
+        "instaclick/coding-standard"            : "^1.1",
+        "squizlabs/php_codesniffer"             : "^1.5",
+        "satooshi/php-coveralls"                : "^0.6",
         "php-mock/php-mock-phpunit"             : "^0.2",
         "instaclick/object-calisthenics-sniffs" : "dev-master",
         "instaclick/symfony2-coding-standard"   : "dev-remaster"
