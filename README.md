@@ -11,9 +11,6 @@ language, supporting its binary data serialization and including a `protoc`
 plugin to generate PHP classes from .proto files.
 
 
-**NOTICE: THIS CLIENT IS UNDER ACTIVE DEVELOPMENT, USE AT YOUR OWN RISK**
-
-
 ## Installation
 
 Run the following `composer` commands:
