@@ -23,7 +23,7 @@
         "php"          : ">=5.5.0"
     },
     "require-dev": {
-        "protobuf-php/protobuf-plugin"          : "^0.1",
+        "protobuf-php/protobuf-plugin"          : ">=0.1",
         "phpunit/phpunit"                       : "^4",
         "instaclick/coding-standard"            : "^1.1",
         "squizlabs/php_codesniffer"             : "^1.5",
