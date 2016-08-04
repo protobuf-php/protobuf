@@ -152,6 +152,20 @@ class SerializeMessageTest extends TestCase
         $this->assertSerializedMessageSize($expected, $repeated);
     }
 
+    public function testWriteRepeatedPackedEnum()
+    {
+        $repeated = new Repeated();
+
+        $repeated->addPackedEnum(Repeated\Enum::FOO());
+        $repeated->addPackedEnum(Repeated\Enum::BAR());
+
+        $expected = $this->getProtoContent('repeated-packed-enum.bin');
+        $actual   = $repeated->toStream();
+
+        $this->assertEquals($expected, (string) $actual);
+        $this->assertSerializedMessageSize($expected, $repeated);
+    }
+
     public function testWriteComplexMessage()
     {
         $phone1  = new PhoneNumber();
@@ -361,6 +375,17 @@ class SerializeMessageTest extends TestCase
         $this->assertInstanceOf(Repeated::CLASS, $repeated);
         $this->assertInstanceOf(Collection::CLASS, $repeated->getPackedList());
         $this->assertEquals([1, 2, 3], $repeated->getPackedList()->getArrayCopy());
+    }
+
+    public function testReadRepeatedPackedEnum()
+    {
+        $enumVal  = [Repeated\Enum::FOO(), Repeated\Enum::BAR()];
+        $binary   = $this->getProtoContent('repeated-packed-enum.bin');
+        $repeated = Repeated::fromStream($binary);
+
+        $this->assertInstanceOf(Repeated::CLASS, $repeated);
+        $this->assertInstanceOf(Collection::CLASS, $repeated->getPackedEnumList());
+        $this->assertEquals($enumVal, $repeated->getPackedEnumList()->getArrayCopy());
     }
 
     public function testReadRepeatedBytes()

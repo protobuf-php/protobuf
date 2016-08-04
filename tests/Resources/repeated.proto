@@ -13,10 +13,11 @@ message Repeated {
     BAR = 1;
   }
 
-  repeated string string  = 1;
-  repeated int32 int      = 2;
-  repeated Nested nested  = 3;
-  repeated int32 packed   = 4 [packed=true];
-  repeated bytes bytes    = 5;
-  repeated Enum enum      = 6;
+  repeated string string     = 1;
+  repeated int32 int         = 2;
+  repeated Nested nested     = 3;
+  repeated int32 packed      = 4 [packed=true];
+  repeated bytes bytes       = 5;
+  repeated Enum enum         = 6;
+  repeated Enum packed_enum  = 7 [packed=true];
 }
