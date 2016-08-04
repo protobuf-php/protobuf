@@ -16,7 +16,7 @@ php:
 
 env:
     - PROTOBUF_VERSION=2.6.1
-    - PROTOBUF_VERSION=3.0.0-beta-3
+    - PROTOBUF_VERSION=3.0.0
 
 before_install:
     - bash ./tests/travis/install-protobuf.sh
