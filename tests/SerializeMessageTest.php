@@ -56,6 +56,34 @@ class SerializeMessageTest extends TestCase
         $this->assertSerializedMessageSize($expected, $simple);
     }
 
+    public function testWriteSimpleMessageTwice()
+    {
+        $simple = new Simple();
+
+        $simple->setBool(true);
+        $simple->setBytes("bar");
+        $simple->setString("foo");
+        $simple->setFloat(12345.123);
+        $simple->setUint32(123456789);
+        $simple->setInt32(-123456789);
+        $simple->setFixed32(123456789);
+        $simple->setSint32(-123456789);
+        $simple->setSfixed32(-123456789);
+        $simple->setDouble(123456789.12345);
+        $simple->setInt64(-123456789123456789);
+        $simple->setUint64(123456789123456789);
+        $simple->setFixed64(123456789123456789);
+        $simple->setSint64(-123456789123456789);
+        $simple->setSfixed64(-123456789123456789);
+
+        $expected = $this->getProtoContent('simple.bin');
+        $actual1  = $simple->toStream();
+        $actual2  = $simple->toStream();
+
+        $this->assertEquals($expected, (string) $actual1);
+        $this->assertEquals($expected, (string) $actual2);
+    }
+
     public function testWriteRepeatedString()
     {
         $repeated = new Repeated();

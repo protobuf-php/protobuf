@@ -278,6 +278,7 @@ class StreamWriter
     {
         $length = $value->getSize();
 
+        $value->seek(0);
         $this->writeVarint($stream, $length);
         $stream->writeStream($value, $length);
     }
