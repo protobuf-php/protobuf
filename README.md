@@ -16,7 +16,7 @@ plugin to generate PHP classes from .proto files.
 Run the following `composer` commands:
 
 ```console
-$ composer require "protobuf-php/protobuf"
+composer require "protobuf-php/protobuf"
 ```
 
 
